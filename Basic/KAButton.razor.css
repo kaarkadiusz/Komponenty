@@ -1,0 +1,133 @@
+.kompButton {
+    --lightColor: var(--komponenty-default-light);
+    --mainColor: var(--komponenty-default);
+    --darkColor: var(--komponenty-default-dark);
+    --contrastColor: var(--komponenty-default-contrast);
+    --padding: 8px 12px;
+    --textColor: var(--contrastColor);
+    --backgroundColor: var(--lightColor);
+    --hoverColor: var(--mainColor);
+    --pressedColor: var(--darkColor);
+    --borderColor: transparent;
+    --borderWidth: 1px;
+    --borderRadius: 4px;
+    --border: var(--borderWidth) solid var(--borderColor);
+    --boxShadowColor: color-mix(in srgb, var(--komponenty-default) 33%, transparent);
+    --boxShadow: 0px 0px 1.5px 0px var(--boxShadowColor);
+    --fontSize: 1em;
+    --fontWeight: 600;
+    --textTransform: uppercase;
+}
+
+    .kompButton.colorDefault {
+        --lightColor: var(--komponenty-default-light);
+        --mainColor: var(--komponenty-default);
+        --darkColor: var(--komponenty-default-dark);
+        --contrastColor: var(--komponenty-default-contrast);
+    }
+
+    .kompButton.colorPrimary {
+        --lightColor: var(--komponenty-primary-light);
+        --mainColor: var(--komponenty-primary);
+        --darkColor: var(--komponenty-primary-dark);
+        --contrastColor: var(--komponenty-primary-contrast);
+    }
+
+    .kompButton.colorSecondary {
+        --lightColor: var(--komponenty-secondary-light);
+        --mainColor: var(--komponenty-secondary);
+        --darkColor: var(--komponenty-secondary-dark);
+        --contrastColor: var(--komponenty-secondary-contrast);
+    }
+
+    .kompButton.colorInfo {
+        --lightColor: var(--komponenty-info-light);
+        --mainColor: var(--komponenty-info);
+        --darkColor: var(--komponenty-info-dark);
+        --contrastColor: var(--komponenty-info-contrast);
+    }
+
+    .kompButton.colorSuccess {
+        --lightColor: var(--komponenty-success-light);
+        --mainColor: var(--komponenty-success);
+        --darkColor: var(--komponenty-success-dark);
+        --contrastColor: var(--komponenty-success-contrast);
+    }
+
+    .kompButton.colorWarning {
+        --lightColor: var(--komponenty-warning-light);
+        --mainColor: var(--komponenty-warning);
+        --darkColor: var(--komponenty-warning-dark);
+        --contrastColor: var(--komponenty-warning-contrast);
+    }
+
+    .kompButton.colorDanger {
+        --lightColor: var(--komponenty-danger-light);
+        --mainColor: var(--komponenty-danger);
+        --darkColor: var(--komponenty-danger-dark);
+        --contrastColor: var(--komponenty-danger-contrast);
+    }
+
+    .kompButton.sizeSmall {
+        --fontSize: 0.9em;
+        --padding: 4px 8px;
+    }
+
+    .kompButton.sizeMedium {
+        --fontSize: 1em;
+        --padding: 6px 10px;
+    }
+
+    .kompButton.sizeLarge {
+        --fontSize: 1.1em;
+        --padding: 8px 12px;
+    }
+
+    .kompButton.typeFilled {
+    }
+
+    .kompButton.typeOutlined {
+        --borderWidth: 1px;
+        --borderColor: var(--mainColor);
+        --backgroundColor: transparent;
+        --hoverColor: color-mix(in srgb, var(--mainColor) 20%, transparent);
+        --pressedColor: color-mix(in srgb, var(--mainColor) 35%, transparent);
+        --textColor: var(--mainColor);
+    }
+
+    .kompButton.typeTextOnly {
+        --borderWidth: 0px;
+        --borderColor: var(--mainColor);
+        --backgroundColor: transparent;
+        --hoverColor: color-mix(in srgb, var(--mainColor) 20%, transparent);
+        --pressedColor: color-mix(in srgb, var(--mainColor) 35%, transparent);
+        --textColor: var(--mainColor);
+        --boxShadow: unset;
+    }
+
+.kompButton {
+    border: var(--border);
+    border-radius: var(--borderRadius);
+    padding: var(--padding);
+    color: var(--textColor);
+    background-color: var(--backgroundColor);
+    text-transform: var(--textTransform);
+    box-shadow: var(--boxShadow);
+    font-size: var(--fontSize);
+    font-weight: var(--fontWeight);
+    font-family: var(--font-family);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+    line-height: 1.2;
+}
+
+    .kompButton:hover {
+        background-color: var(--hoverColor);
+    }
+
+    .kompButton:active {
+        background-color: var(--pressedColor);
+    }

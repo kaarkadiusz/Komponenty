@@ -1,0 +1,29 @@
+﻿@typeparam T
+@inherits KAInputBase<T>
+
+<CascadingValue TValue="KAInputSelect<T>" Value="this" IsFixed>
+    <KAInputBaseTemplate Label="@Label"
+                       HelperText="@HelperText"
+                       AdornmentPosition="@AdornmentPosition"
+                       AdornmentIcon="@AdornmentIcon"
+                       AdornmentText="@AdornmentText"
+                       Type="@Type"
+                       FocusInputTask="FocusAsync"
+                       HtmlId="@IdAttribute"
+                       ValidationResult="RecentValidationResult">
+        <select @ref="ElementReference"
+                name="@IdAttribute"
+                @attributes="AdditionalAttributes"
+                id="@IdAttribute"
+                disabled="@Disabled"
+                @bind-value:get="Value"
+                @bind-value:set="InvokeValueChanged"
+                @bind-value:event="@BoundEvent">
+            @ChildContent
+        </select>
+    </KAInputBaseTemplate>
+</CascadingValue>
+
+@code {
+
+}

@@ -1,0 +1,15 @@
+﻿@inherits KAComponentBase
+
+@if(!string.IsNullOrEmpty(IconSrc))
+{
+    <i @attributes="Attributes" class="@GetCssClass()"> 
+        @if(IsIconValid)
+        {
+            @((MarkupString)IconSrc)
+        }
+    </i>
+}
+
+@code {
+
+}

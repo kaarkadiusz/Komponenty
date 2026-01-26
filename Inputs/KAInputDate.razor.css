@@ -1,0 +1,5 @@
+input::-webkit-calendar-picker-indicator {
+    font-size: 120%;
+    filter: var(--webkit-calendar-picker-indicator-filter);
+    cursor: pointer;
+}

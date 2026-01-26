@@ -1,0 +1,46 @@
+﻿@typeparam T
+@inherits KAInputBase<T>
+
+<KAInputBaseTemplate Label="@Label"
+                   HelperText="@HelperText"
+                   AdornmentPosition="@AdornmentPosition"
+                   AdornmentIcon="@AdornmentIcon"
+                   AdornmentText="@AdornmentText"
+                   Type="@Type"
+                   FocusInputTask="FocusAsync"
+                   HtmlId="@IdAttribute"
+                   ValidationResult="RecentValidationResult">
+    @switch (ValueType)
+    {
+        case ValueTypeEnum.DateTime:
+            <input @ref="ElementReference"
+                   @attributes="AdditionalAttributes"
+                   min="@GetBoundaryString(DateTimeTypeWrapper!.Min)"
+                   max="@GetBoundaryString(DateTimeTypeWrapper!.Max)"
+                   type="datetime-local"
+                   id="@IdAttribute"
+                   disabled="@Disabled"
+                   readonly="@ReadOnly"
+                   @bind-value:get=DateTimeTypeWrapper!.Value
+                   @bind-value:set="val => InvokeValueChanged((object?)val)"
+                   @bind-value:event="@BoundEvent" />
+            break;
+        case ValueTypeEnum.DateOnly:
+            <input @ref="ElementReference"
+                   @attributes="AdditionalAttributes"
+                   min="@GetBoundaryString(DateOnlyTypeWrapper!.Min)"
+                   max="@GetBoundaryString(DateOnlyTypeWrapper!.Max)"
+                   type="date"
+                   id="@IdAttribute"
+                   disabled="@Disabled"
+                   readonly="@ReadOnly"
+                   @bind-value:get=DateOnlyTypeWrapper!.Value
+                   @bind-value:set="val => InvokeValueChanged((object?)val)"
+                   @bind-value:event="@BoundEvent" />
+            break;
+    }
+
+</KAInputBaseTemplate>
+
+@code {
+}

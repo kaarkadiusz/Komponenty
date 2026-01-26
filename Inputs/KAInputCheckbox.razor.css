@@ -1,0 +1,82 @@
+.kompInputCheckboxWrap {
+    --color: var(--komponenty-base-12, currentColor);
+    --helperTextColor: var(--komponenty-base-11);
+    --hoverColor: color-mix(in srgb, var(--color) 15%, transparent);
+    --pressedColor: color-mix(in srgb, var(--color) 30%, transparent);
+}
+
+    .kompInputCheckboxWrap.color-Primary {
+        --color: var(--komponenty-primary-light);
+    }
+
+    .kompInputCheckboxWrap.color-Secondary {
+        --color: var(--komponenty-secondary-light);
+    }
+
+    .kompInputCheckboxWrap.color-Info {
+        --color: var(--komponenty-info-light);
+    }
+
+    .kompInputCheckboxWrap.color-Success {
+        --color: var(--komponenty-success-light);
+    }
+
+    .kompInputCheckboxWrap.color-Warning {
+        --color: var(--komponenty-warning-light);
+    }
+
+    .kompInputCheckboxWrap.color-Danger {
+        --color: var(--komponenty-danger-light);
+    }
+
+    .kompInputCheckboxWrap.validation-Success {
+        --helperTextColor: var(--komponenty-success);
+    }
+
+    .kompInputCheckboxWrap.validation-Warning {
+        --helperTextColor: var(--komponenty-warning);
+    }
+
+    .kompInputCheckboxWrap.validation-Error {
+        --helperTextColor: var(--komponenty-danger);
+    }
+
+.kompInputCheckboxWrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.kompInputCheckbox {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+    line-height: 1.5;
+}
+
+button {
+    color: var(--color);
+    padding: 4px;
+    border-radius: 4px;
+    border: none;
+    background-color: transparent;
+    line-height: 0;
+    cursor: pointer;
+}
+
+    button:hover {
+        background-color: var(--hoverColor);
+    }
+
+    button:active {
+        background-color: var(--pressedColor);
+    }
+
+label {
+    cursor: pointer;
+}
+
+.helperText {
+    font-size: 70%;
+    color: var(--helperTextColor);
+    word-break: break-word;
+}

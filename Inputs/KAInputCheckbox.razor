@@ -1,0 +1,42 @@
+﻿@typeparam T
+@inherits KAInputBase<T>
+
+<div class=@GetCssClass()>
+    <div class="kompInputCheckbox">
+        <button @ref="ElementReference"
+                @attributes="AdditionalAttributes"
+                type="button"
+                id="@IdAttribute"
+                disabled="@Disabled"
+                @onclick="() => InvokeValueChanged()">
+            @switch (Value)
+            {
+                case true:
+                    <Komponenty.Icons.KAIcon IconSrc="@CheckedIcon" Size="Icons.IconSize.Large"/>
+                    break;
+                case false:
+                    <Komponenty.Icons.KAIcon IconSrc="@UncheckedIcon" Size="Icons.IconSize.Large" />
+                    break;
+                case null:
+                    <Komponenty.Icons.KAIcon IconSrc="@UnknownIcon" Size="Icons.IconSize.Large" />
+                    break;
+            }
+        </button>
+        @if (!string.IsNullOrEmpty(Label))
+        {
+            <label for="@IdAttribute">
+                @Label
+            </label>
+        }
+    </div>
+    @if (GetHelperText() is string helperText && !string.IsNullOrEmpty(helperText))
+    {
+        <div class="helperText">
+            <span>@helperText</span>
+        </div>
+    }
+</div>
+
+@code {
+
+}

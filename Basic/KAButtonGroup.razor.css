@@ -1,0 +1,52 @@
+.kompButtonGroup {
+    --flexDirection: row;
+}
+
+    .kompButtonGroup.directionRow {
+        --flexDirection: row;
+    }
+
+    .kompButtonGroup.directionColumn {
+        --flexDirection: column;
+    }
+
+.kompButtonGroup {
+    display: inline-flex;
+    flex-direction: var(--flexDirection);
+}
+
+    .kompButtonGroup > ::deep .kompButton:not(:first-of-type, :last-of-type) {
+        border-radius: 0;
+    }
+
+    .kompButtonGroup.directionRow > ::deep .kompButton:first-of-type {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .kompButtonGroup.directionRow > ::deep .kompButton:last-of-type {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .kompButtonGroup.directionColumn > ::deep .kompButton:first-of-type {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .kompButtonGroup.directionColumn > ::deep .kompButton:last-of-type {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+    .kompButtonGroup > ::deep .kompButton:not(:last-of-type) {
+        border-right-width: 0;
+    }
+
+    .kompButtonGroup.directionRow > ::deep .kompButton.typeTextOnly:not(:last-of-type) {
+        border-right-width: 1px;
+    }
+
+    .kompButtonGroup.directionColumn > ::deep .kompButton.typeTextOnly:not(:last-of-type) {
+        border-bottom-width: 1px;
+    }

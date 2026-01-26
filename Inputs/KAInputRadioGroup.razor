@@ -1,0 +1,20 @@
+﻿@typeparam T
+@inherits KAInputBase<T>
+
+<CascadingValue TValue="KAInputRadioGroup<T>" Value="this" IsFixed>
+    <div class=@GetCssClass()>
+        <div class="kompInputRadioGroup">
+            @ChildContent
+        </div>
+        @if (GetHelperText() is string helperText && !string.IsNullOrEmpty(helperText))
+        {
+            <div class="helperText">
+                <span>@helperText</span>
+            </div>
+        }
+    </div>
+</CascadingValue>
+
+@code {
+
+}

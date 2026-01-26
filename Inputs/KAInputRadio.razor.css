@@ -1,0 +1,60 @@
+.kompInputRadio {
+    --color: var(--komponenty-base-12, currentColor);
+    --helperTextColor: var(--komponenty-base-11);
+    --hoverColor: color-mix(in srgb, var(--color) 15%, transparent);
+    --pressedColor: color-mix(in srgb, var(--color) 30%, transparent);
+}
+
+    .kompInputRadio.color-Primary {
+        --color: var(--komponenty-primary-light);
+    }
+
+    .kompInputRadio.color-Secondary {
+        --color: var(--komponenty-secondary-light);
+    }
+
+    .kompInputRadio.color-Info {
+        --color: var(--komponenty-info-light);
+    }
+
+    .kompInputRadio.color-Success {
+        --color: var(--komponenty-success-light);
+    }
+
+    .kompInputRadio.color-Warning {
+        --color: var(--komponenty-warning-light);
+    }
+
+    .kompInputRadio.color-Danger {
+        --color: var(--komponenty-danger-light);
+    }
+
+.kompInputRadio {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+    line-height: 1.5;
+}
+
+button {
+    color: var(--color);
+    padding: 4px;
+    border-radius: 100px;
+    border: none;
+    background-color: transparent;
+    line-height: 0;
+    cursor: pointer;
+}
+
+    button:hover {
+        background-color: var(--hoverColor);
+    }
+
+    button:active {
+        background-color: var(--pressedColor);
+    }
+
+label {
+    cursor: pointer;
+    display: inline-block;
+}

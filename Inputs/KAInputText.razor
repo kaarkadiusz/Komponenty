@@ -1,0 +1,26 @@
+﻿@inherits KAInputBase<string>
+
+<KAInputBaseTemplate Label="@Label"
+                   HelperText="@HelperText"
+                   AdornmentPosition="@AdornmentPosition"
+                   AdornmentIcon="@AdornmentIcon"
+                   AdornmentText="@AdornmentText"
+                   Type="@Type"
+                   FocusInputTask="FocusAsync"
+                   HtmlId="@IdAttribute"
+                   ValidationResult="RecentValidationResult">
+    <input @ref="ElementReference"
+           @attributes="AdditionalAttributes"
+           type="text"
+           id="@IdAttribute"
+           maxlength="@MaxLength"
+           disabled="@Disabled"
+           readonly="@ReadOnly"
+           @bind-value:get="Value"
+           @bind-value:set="InvokeValueChanged"
+           @bind-value:event="@BoundEvent" />
+</KAInputBaseTemplate>
+
+@code {
+
+}

@@ -1,0 +1,126 @@
+.kompInputBaseTemplate {
+    --borderRadius: 0;
+    --helperTextColor: var(--komponenty-base-11);
+    --backgroundColor: var(--komponenty-base-a3);
+    --borderNormalColor: var(--komponenty-base-11);
+    --borderSuccessColor: var(--komponenty-success);
+    --borderWarningColor: var(--komponenty-warning);
+    --borderErrorColor: var(--komponenty-danger);
+    --borderWidth: 1px;
+    --borderColor: var(--borderNormalColor);
+    --borderBase: var(--borderWidth) solid var(--borderColor);
+    --borderTop: none;
+    --borderRight: none;
+    --borderBottom: var(--borderBase);
+    --borderLeft: none;
+    --resize: none;
+}
+
+    .kompInputBaseTemplate.typeFilled {
+    }
+
+    .kompInputBaseTemplate.typeOutlined {
+        --borderRadius: 4px;
+        --borderTop: var(--borderBase);
+        --borderRight: var(--borderBase);
+        --borderBottom: var(--borderBase);
+        --borderLeft: var(--borderBase);
+    }
+
+    .kompInputBaseTemplate.validationInitial {
+    }
+
+    .kompInputBaseTemplate.validationSuccess {
+        --borderColor: var(--borderSuccessColor);
+    }
+
+    .kompInputBaseTemplate.validationWarning {
+        --borderColor: var(--borderWarningColor);
+    }
+
+    .kompInputBaseTemplate.validationError {
+        --borderColor: var(--borderErrorColor);
+    }
+
+    .kompInputBaseTemplate.hasValidationMessage {
+        --helperTextColor: var(--borderColor);
+    }
+
+    .kompInputBaseTemplate:has(:disabled) {
+        --borderColor: color-mix(in srgb, var(--borderNormalColor) 70%, transparent);
+    }
+
+.kompInputBaseTemplate {
+    display: flex;
+    flex-direction: column;
+}
+
+.kompInputWrap {
+    display: inline-flex;
+    gap: 4px;
+    padding: 0 8px;
+    background-color: var(--backgroundColor);
+    border-radius: var(--borderRadius);
+    border-color: var(--borderColor);
+    border-top: var(--borderTop);
+    border-right: var(--borderRight);
+    border-bottom: var(--borderBottom);
+    border-left: var(--borderLeft);
+    resize: var(--resize);
+}
+
+    .kompInputWrap:not(:has(:is(:disabled, [readonly]))):is(:focus-within, :active) {
+        border-color: var(--komponenty-primary);
+    }
+
+    .kompInputWrap:has(:disabled) {
+        pointer-events: none;
+        user-select: none;
+        color: color-mix(in srgb, currentColor 70%, transparent);
+    }
+
+.adornment {
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    pointer-events: none;
+}
+
+label {
+    font-size: 75%;
+    color: var(--komponenty-base-12);
+    word-break: break-word;
+}
+
+.helperText {
+    font-size: 70%;
+    color: var(--helperTextColor);
+    word-break: break-word;
+}
+
+.kompInput {
+    flex: 1 1 auto;
+    display: inline-flex;
+    gap: 4px;
+}
+
+    .kompInput ::deep :is(input, textarea, select) {
+        background-color: unset;
+        color: inherit;
+        border: unset;
+        outline: unset;
+        font-size: 0.925em;
+        font-family: var(--font-family);
+        padding: 8px 0;
+        box-sizing: border-box;
+        width: 100%;
+        line-height: 1.5;
+    }
+
+    .kompInput ::deep textarea {
+        resize: none;
+        scrollbar-width: thin;
+        scrollbar-color: var(--komponenty-base-12) transparent;
+    }

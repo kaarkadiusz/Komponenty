@@ -1,0 +1,51 @@
+﻿@inherits KAComponentBase
+
+<div class=@GetCssClass()>
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <div>
+            <label for="@HtmlId">@Label</label>
+        </div>
+    }
+    <div class="kompInputWrap" @onclick="FocusInput">
+        @if (AdornmentPosition is Inputs.AdornmentPosition.Left)
+        {
+            @RenderAdornment()
+        }
+        <div class="kompInput" tabindex="-1">
+            @ChildContent
+        </div>
+        @if (AdornmentPosition is Inputs.AdornmentPosition.Right)
+        {
+            @RenderAdornment()
+        }
+    </div>
+    @if (GetHelperText() is string helperText && !string.IsNullOrEmpty(helperText))
+    {
+        <div class="helperText">
+            <span>@helperText</span>
+        </div>
+    }
+</div> 
+
+@code {
+    private RenderFragment? RenderAdornment()
+    {
+        if (!string.IsNullOrEmpty(AdornmentText))
+        {
+            return
+            @<div class="adornment">
+                <span>@AdornmentText</span>
+            </div>;
+        }
+        else if (!string.IsNullOrEmpty(AdornmentIcon))
+        {
+            return
+            @<div class="adornment">
+                <Komponenty.Icons.KAIcon IconSrc="@AdornmentIcon" Size="Icons.IconSize.Medium" />
+            </div>;
+        }
+
+        return null;
+    }
+}

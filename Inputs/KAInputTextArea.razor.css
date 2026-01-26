@@ -1,0 +1,9 @@
+.textareafake {
+    position: fixed;
+    visibility: hidden;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    height: auto;
+    top: 0;
+    left: -9999px;
+}

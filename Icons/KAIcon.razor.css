@@ -1,0 +1,70 @@
+i {
+    --fontSize: 1.25rem;
+    --fontColor: inherit;
+}
+
+    i.sizeInherit {
+        --fontSize: inherit;
+    }
+
+    i.sizeExtraSmall {
+        --fontSize: 0.75rem;
+    }
+
+    i.sizeSmall {
+        --fontSize: 1rem;
+    }
+
+    i.sizeMedium {
+        --fontSize: 1.25rem;
+    }
+
+    i.sizeLarge {
+        --fontSize: 1.5rem;
+    }
+
+    i.sizeExtraLarge {
+        --fontSize: 1.75rem;
+    }
+
+    button.colorDefault {
+        --fontColor: inherit;
+    }
+
+    button.colorPrimary {
+        --fontColor: var(--komponenty-primary);
+    }
+
+    button.colorSecondary {
+        --fontColor: var(--komponenty-secondary);
+    }
+
+    button.colorInfo {
+        --fontColor: var(--komponenty-info);
+    }
+
+    button.colorSuccess {
+        --fontColor: var(--komponenty-success);
+    }
+
+    button.colorWarning {
+        --fontColor: var(--komponenty-warning);
+    }
+
+    button.colorDanger {
+        --fontColor: var(--komponenty-danger);
+    }
+
+i {
+    font-style: inherit;
+    display: inline-block;
+    line-height: 0.5;
+    font-size: var(--fontSize);
+    color: var(--fontColor);
+    min-width: 1em;
+    min-height: 1em;
+}
+
+i > svg {
+    color: inherit;
+}

@@ -1,0 +1,29 @@
+﻿@typeparam T
+@inherits KAComponentBase
+
+<div class=@GetCssClass()>
+    <button @attributes="Attributes"
+            type="button"
+            id="@IdAttribute"
+            @onclick="() => InvokeValueChanged()">
+        @switch (IsSelected)
+        {
+            case true:
+                <Komponenty.Icons.KAIcon IconSrc="@Icons.Preset.Fill.CircleCheck" Size="Icons.IconSize.Large" />
+                break;
+            case false:
+                <Komponenty.Icons.KAIcon IconSrc="@Icons.Preset.Outline.Circle" Size="Icons.IconSize.Large" />
+                break;
+        }
+    </button>
+    @if (ChildContent is not null)
+    {
+        <label for="@IdAttribute">
+            @ChildContent
+        </label>
+    }
+</div>
+
+@code {
+
+}

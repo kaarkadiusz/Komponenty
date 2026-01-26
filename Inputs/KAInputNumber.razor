@@ -1,0 +1,39 @@
+﻿@typeparam T
+@inherits KAInputBase<T>
+
+<KAInputBaseTemplate Label="@Label"
+                   HelperText="@HelperText"
+                   AdornmentPosition="@AdornmentPosition"
+                   AdornmentIcon="@AdornmentIcon"
+                   AdornmentText="@AdornmentText"
+                   Type="@Type"
+                   FocusInputTask="FocusAsync"
+                   HtmlId="@IdAttribute"
+                   ValidationResult="RecentValidationResult">
+    <input @ref="ElementReference"
+           @attributes="AdditionalAttributes"
+           type="number"
+           min="@NumberTypeWrapper.GetMin()"
+           max="@NumberTypeWrapper.GetMax()"
+           step="@NumberTypeWrapper.GetStep()"
+           id="@IdAttribute"
+           disabled="@Disabled"
+           readonly="@ReadOnly"
+           @bind-value:get=NumberTypeWrapper.GetValue()
+           @bind-value:set="NumberTypeWrapper.SetValue"
+           @bind-value:event="@BoundEvent" />
+    @if (UseSpinButton)
+    {
+        <div class="spin-buttons">
+            <button class="spin-button" @onclick="NumberTypeWrapper.IncrementValueByStep" @onpointerdown="() => PointerDownHandler(() => NumberTypeWrapper.IncrementValueByStep())" @onpointerup="PointerUpHandler" @onpointerleave="PointerUpHandler">
+                <Komponenty.Icons.KAIcon IconSrc="@Icons.Preset.Fill.CaretUp" Size="Icons.IconSize.Small" />
+            </button>
+            <button class="spin-button" @onclick="NumberTypeWrapper.DecrementValueByStep" @onpointerdown="() => PointerDownHandler(() => NumberTypeWrapper.DecrementValueByStep())" @onpointerup="PointerUpHandler" @onpointerleave="PointerUpHandler">
+                <Komponenty.Icons.KAIcon IconSrc="@Icons.Preset.Fill.CaretDown" Size="Icons.IconSize.Small" />
+            </button>
+        </div>
+    }
+</KAInputBaseTemplate>
+
+@code {
+}

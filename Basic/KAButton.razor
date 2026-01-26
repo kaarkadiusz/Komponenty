@@ -1,0 +1,25 @@
+﻿@inherits KAComponentBase
+
+<button @attributes="Attributes"
+        @onclick="InvokeOnClick"
+        class=@GetCssClass()
+        type=@GetButtonType()>
+    @if (!string.IsNullOrEmpty(StartIcon))
+    {
+        <Komponenty.Icons.KAIcon IconSrc="@StartIcon" Size="Icons.IconSize.Medium" />
+    }
+    @if(!string.IsNullOrEmpty(Text))
+    {
+        <span>
+            @Text
+        </span>
+    }
+    @if (!string.IsNullOrEmpty(EndIcon))
+    {
+        <Komponenty.Icons.KAIcon IconSrc="@EndIcon" Size="Icons.IconSize.Medium" />
+    }
+</button>
+
+@code {
+
+}

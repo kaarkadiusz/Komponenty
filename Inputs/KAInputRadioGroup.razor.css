@@ -1,0 +1,40 @@
+.kompInputRadioGroupWrap {
+    --helperTextColor: var(--komponenty-base-11);
+    --flexDirection: row;
+}
+
+    .kompInputRadioGroupWrap.validation-Success {
+        --helperTextColor: var(--komponenty-success);
+    }
+
+    .kompInputRadioGroupWrap.validation-Warning {
+        --helperTextColor: var(--komponenty-warning);
+    }
+
+    .kompInputRadioGroupWrap.validation-Error {
+        --helperTextColor: var(--komponenty-danger);
+    }
+
+    .kompInputRadioGroupWrap.direction-Row {
+        --flexDirection: row;
+    }
+
+    .kompInputRadioGroupWrap.direction-Column {
+        --flexDirection: column;
+    }
+
+.kompInputRadioGroupWrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.kompInputRadioGroup {
+    display: flex;
+    flex-direction: var(--flexDirection);
+}
+
+.helperText {
+    font-size: 70%;
+    color: var(--helperTextColor);
+    word-break: break-word;
+}

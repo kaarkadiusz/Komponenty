@@ -1,0 +1,30 @@
+﻿@inherits KAInputBase<string>
+
+<KAInputBaseTemplate Label="@Label"
+                   HelperText="@HelperText"
+                   AdornmentPosition="@AdornmentPosition"
+                   AdornmentIcon="@AdornmentIcon"
+                   AdornmentText="@AdornmentText"
+                   Type="@Type"
+                   FocusInputTask="FocusAsync"
+                   HtmlId="@IdAttribute"
+                   ValidationResult="RecentValidationResult">
+    <textarea @ref="ElementReference"
+              @attributes="AdditionalAttributes"
+              id="@IdAttribute"
+              maxlength="@MaxLength"
+              rows="@CurrentRows"
+              class="@GetCssClass()"
+              disabled="@Disabled"
+              readonly="@ReadOnly"
+              @oninput="RefreshCurrentRows"
+              @bind-value:get="Value"
+              @bind-value:set="InvokeValueChanged"
+              @bind-value:event="@BoundEvent" />
+</KAInputBaseTemplate>
+
+<div id=@TextAreaFakeIdAttribute class="textareafake"/>
+
+@code {
+
+}

@@ -12,7 +12,7 @@ namespace Komponenty
     public class KAJavascriptService(IJSRuntime jsRuntime) : IAsyncDisposable
     {
         private readonly Lazy<Task<IJSObjectReference>> moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-                "import", "./_content/Komponenty/KAJavascriptService.js").AsTask());
+                "import", "./_content/kaarkadiusz.Komponenty/KAJavascriptService.js").AsTask());
 
         public async Task ScrollToElement(string elementId)
         {

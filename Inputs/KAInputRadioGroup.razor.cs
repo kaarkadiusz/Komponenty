@@ -75,12 +75,6 @@ namespace Komponenty.Inputs
             return sb.ToString();
         }
 
-        public enum RadioGroupDirection
-        {
-            Row,
-            Column
-        }
-
         private new object? Label { get; }
         private new object? ReadOnly { get; }
         private new object? ValueEvent { get; }
@@ -88,5 +82,11 @@ namespace Komponenty.Inputs
         private new object? AdornmentPosition { get; }
         private new object? AdornmentText { get; }
         private new object? Type { get; }
+    }
+
+    public enum RadioGroupDirection
+    {
+        Row,
+        Column
     }
 }

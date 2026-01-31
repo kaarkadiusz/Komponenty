@@ -27,6 +27,10 @@
         --borderLeft: var(--borderBase);
     }
 
+    .kompInputBaseTemplate.typeClear {
+        --backgroundColor: transparent;
+    }
+
     .kompInputBaseTemplate.validationInitial {
     }
 
@@ -51,14 +55,13 @@
     }
 
 .kompInputBaseTemplate {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
+    min-width: min(100%, 20ch);
 }
 
 .kompInputWrap {
     display: inline-flex;
-    gap: 4px;
-    padding: 0 8px;
     background-color: var(--backgroundColor);
     border-radius: var(--borderRadius);
     border-color: var(--borderColor);
@@ -86,6 +89,7 @@
     justify-content: center;
     align-self: center;
     pointer-events: none;
+    margin: 0 4px;
 }
 
 label {
@@ -113,14 +117,25 @@ label {
         outline: unset;
         font-size: 0.925em;
         font-family: var(--font-family);
-        padding: 8px 0;
+        padding: 8px;
         box-sizing: border-box;
         width: 100%;
         line-height: 1.5;
+        min-width: min(100%, 20ch);
     }
 
     .kompInput ::deep textarea {
         resize: none;
         scrollbar-width: thin;
         scrollbar-color: var(--komponenty-base-12) transparent;
+    }
+
+    .kompInput ::deep input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    .kompInput ::deep input[type=number]::-webkit-outer-spin-button,
+    .kompInput ::deep input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }

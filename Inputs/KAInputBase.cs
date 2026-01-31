@@ -176,7 +176,8 @@ namespace Komponenty.Inputs
     public enum InputType
     {
         Filled,
-        Outlined
+        Outlined,
+        Clear
     }
     public enum AdornmentPosition
     {

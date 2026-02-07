@@ -43,6 +43,10 @@ namespace Komponenty.Utilities
             {
                 return nameof(EventCallback);
             }
+            if(type.IsArray)
+            {
+                return KeywordDictionary.GetValueOrDefault(type.GetElementType() ?? type, type.Name);
+            }
 
             return KeywordDictionary.GetValueOrDefault(type, type.Name);
         }

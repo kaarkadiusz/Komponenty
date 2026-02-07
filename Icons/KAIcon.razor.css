@@ -1,10 +1,16 @@
 i {
     --fontSize: 1.25rem;
+    --minSize: 1em;
     --fontColor: inherit;
 }
 
     i.sizeInherit {
         --fontSize: inherit;
+    }
+
+    i.sizeUnset {
+        --fontSize: 1rem;
+        --minSize: unset;
     }
 
     i.sizeExtraSmall {
@@ -58,11 +64,11 @@ i {
 i {
     font-style: inherit;
     display: inline-block;
-    line-height: 0.5;
+    line-height: 0;
     font-size: var(--fontSize);
     color: var(--fontColor);
-    min-width: 1em;
-    min-height: 1em;
+    min-width: var(--minSize);
+    min-height: var(--minSize);
 }
 
 i > svg {

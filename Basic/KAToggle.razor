@@ -1,0 +1,40 @@
+﻿@typeparam T
+@inherits KAComponentBase
+
+@if (Values.Length > 0)
+{
+    <button type="button" class=@GetCssClass() style="@GetStyleString()" @onclick="SetNextValue">
+        <div class="ka-toggle-valuelist" >
+            @foreach (T? value in Values)
+            {
+                <div class="ka-toggle-option" @onclick="() => OptionClicked(value)" @onclick:stopPropagation>
+                    @RenderIcon(value)
+                </div>
+            }
+            @if (Values.Contains(Value))
+            {
+                <div class="ka-toggle-indicator">
+                    @RenderIcon(Value)
+                </div>
+            }
+        </div>
+    </button>
+}
+
+@code {
+    private RenderFragment? RenderIcon(T? value)
+    {
+        @if(IconFragment is not null)
+        {
+            return IconFragment(value);
+        }
+        else if (IconFunc?.Invoke(value) is string icon)
+        {
+            return
+            @<div class="ka-toggle-icon">
+                <Komponenty.Icons.KAIcon IconSrc="@icon" Size="Icons.IconSize.Unset" />
+            </div>;
+        }
+        return null;
+    }
+}

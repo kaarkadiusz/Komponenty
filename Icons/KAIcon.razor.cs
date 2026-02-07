@@ -67,6 +67,10 @@ namespace Komponenty.Icons
         /// </summary>
         Inherit,
         /// <summary>
+        /// Unsets icon's size making it fill the container.
+        /// </summary>
+        Unset,
+        /// <summary>
         /// Sets icon's --fontSize variable to 0.75rem (by default, for most browsers, this equals to 12px).
         /// </summary>
         ExtraSmall,

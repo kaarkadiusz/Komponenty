@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Components.Forms;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 
 namespace Komponenty.Inputs
@@ -33,6 +35,8 @@ namespace Komponenty.Inputs
         public virtual Func<Task<ValidationResult?>>? ValidateTask { get; set; }
         [Parameter]
         public virtual ValidationBehavior ValidationBehavior { get; set; } = ValidationBehavior.OnValueChange;
+        [Parameter]
+        public bool DisableDataAnnotationsValidation { get; set; }
 
         protected ElementReference? ElementReference { get; set; }
         protected string IdAttribute => $"{GetType().Name}-{GetHashCode()}";
@@ -115,10 +119,43 @@ namespace Komponenty.Inputs
 
         public virtual async Task Validate()
         {
-            Task<ValidationResult?>? validateTask = ValidateTask?.Invoke() ?? Task.FromResult<ValidationResult?>(null);
-            RecentValidationResult = await validateTask;
+            RecentValidationResult = null;
+            if (ValidateTask is not null)
+            {
+                RecentValidationResult = await ValidateTask.Invoke();
+            }
+            RecentValidationResult ??= (DisableDataAnnotationsValidation ? null : ValidateDataAnnotations());
             await InvokeAsync(StateHasChanged);
         }
+        private ValidationResult? ValidateDataAnnotations()
+        {
+            object? value = null;
+            IEnumerable<ValidationAttribute> validationAttributes = [];
+            if (FieldIdentifier.Model.GetType().GetProperty(FieldIdentifier.FieldName) is PropertyInfo propertyInfo && propertyInfo.GetGetMethod(nonPublic: false) is not null)
+            {
+                value = propertyInfo.GetValue(FieldIdentifier.Model);
+                validationAttributes = propertyInfo.GetCustomAttributes<ValidationAttribute>();
+            }
+            else if (FieldIdentifier.Model.GetType().GetField(FieldIdentifier.FieldName) is FieldInfo fieldInfo && fieldInfo.IsPublic)
+            {
+                value = fieldInfo.GetValue(FieldIdentifier.Model);
+                validationAttributes = fieldInfo.GetCustomAttributes<ValidationAttribute>();
+            }
+
+            ValidationContext context = new(FieldIdentifier.Model)
+            {
+                MemberName = FieldIdentifier.FieldName
+            };
+            ICollection<System.ComponentModel.DataAnnotations.ValidationResult> validationResults = [];
+            Validator.TryValidateValue(value, context, validationResults, validationAttributes);
+            if (validationResults.FirstOrDefault() is System.ComponentModel.DataAnnotations.ValidationResult validationResult)
+            {
+                return new ValidationResult() { Message = validationResult.ErrorMessage, Status = ValidationStatus.Error };
+            }
+
+            return null;
+        }
+
         public virtual async Task FocusAsync()
         {
             if (ElementReference is not null)

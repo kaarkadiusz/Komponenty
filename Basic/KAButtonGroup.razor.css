@@ -44,9 +44,9 @@
     }
 
     .kompButtonGroup.directionRow > ::deep .kompButton.typeTextOnly:not(:last-of-type) {
-        border-right-width: 1px;
+        border-right-width: var(--ka-borderWidth-thin);
     }
 
     .kompButtonGroup.directionColumn > ::deep .kompButton.typeTextOnly:not(:last-of-type) {
-        border-bottom-width: 1px;
+        border-bottom-width: var(--ka-borderWidth-thin);
     }

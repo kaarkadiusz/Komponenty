@@ -1,5 +1,13 @@
+:root, .light, .light-theme {
+    --ka-inputdate-calendarPickerIndicator: invert(0);
+}
+
+.dark, .dark-theme {
+    --ka-inputdate-calendarPickerIndicator: invert(1);
+}
+
 input::-webkit-calendar-picker-indicator {
-    font-size: 120%;
-    filter: var(--webkit-calendar-picker-indicator-filter);
+    font-size: var(--ka-fontSize-xl);
+    filter: var(--ka-inputdate-calendarPickerIndicator);
     cursor: pointer;
 }

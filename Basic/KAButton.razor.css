@@ -1,93 +1,92 @@
 .kompButton {
-    --lightColor: var(--komponenty-default-light);
-    --mainColor: var(--komponenty-default);
-    --darkColor: var(--komponenty-default-dark);
-    --contrastColor: var(--komponenty-default-contrast);
-    --padding: 8px 12px;
+    --lightColor: var(--ka-default-light);
+    --mainColor: var(--ka-default);
+    --darkColor: var(--ka-default-dark);
+    --contrastColor: var(--ka-default-contrast);
+    --padding: var(--ka-space-sm) var(--ka-space-md);
     --textColor: var(--contrastColor);
     --backgroundColor: var(--lightColor);
     --hoverColor: var(--mainColor);
     --pressedColor: var(--darkColor);
     --borderColor: transparent;
-    --borderWidth: 1px;
-    --borderRadius: 4px;
+    --borderWidth: var(--ka-borderWidth-thin);
+    --borderRadius: var(--ka-borderRadius-sm);
     --border: var(--borderWidth) solid var(--borderColor);
-    --boxShadowColor: color-mix(in srgb, var(--komponenty-default) 33%, transparent);
-    --boxShadow: 0px 0px 1.5px 0px var(--boxShadowColor);
-    --fontSize: 1em;
-    --fontWeight: 600;
+    --boxShadow: var(--ka-boxShadow-sm);
+    --fontSize: var(--ka-fontSize-md);
+    --fontWeight: var(--ka-fontWeight-bold);
     --textTransform: uppercase;
 }
 
     .kompButton.colorDefault {
-        --lightColor: var(--komponenty-default-light);
-        --mainColor: var(--komponenty-default);
-        --darkColor: var(--komponenty-default-dark);
-        --contrastColor: var(--komponenty-default-contrast);
+        --lightColor: var(--ka-default-light);
+        --mainColor: var(--ka-default);
+        --darkColor: var(--ka-default-dark);
+        --contrastColor: var(--ka-default-contrast);
     }
 
     .kompButton.colorPrimary {
-        --lightColor: var(--komponenty-primary-light);
-        --mainColor: var(--komponenty-primary);
-        --darkColor: var(--komponenty-primary-dark);
-        --contrastColor: var(--komponenty-primary-contrast);
+        --lightColor: var(--ka-primary-light);
+        --mainColor: var(--ka-primary);
+        --darkColor: var(--ka-primary-dark);
+        --contrastColor: var(--ka-primary-contrast);
     }
 
     .kompButton.colorSecondary {
-        --lightColor: var(--komponenty-secondary-light);
-        --mainColor: var(--komponenty-secondary);
-        --darkColor: var(--komponenty-secondary-dark);
-        --contrastColor: var(--komponenty-secondary-contrast);
+        --lightColor: var(--ka-secondary-light);
+        --mainColor: var(--ka-secondary);
+        --darkColor: var(--ka-secondary-dark);
+        --contrastColor: var(--ka-secondary-contrast);
     }
 
     .kompButton.colorInfo {
-        --lightColor: var(--komponenty-info-light);
-        --mainColor: var(--komponenty-info);
-        --darkColor: var(--komponenty-info-dark);
-        --contrastColor: var(--komponenty-info-contrast);
+        --lightColor: var(--ka-info-light);
+        --mainColor: var(--ka-info);
+        --darkColor: var(--ka-info-dark);
+        --contrastColor: var(--ka-info-contrast);
     }
 
     .kompButton.colorSuccess {
-        --lightColor: var(--komponenty-success-light);
-        --mainColor: var(--komponenty-success);
-        --darkColor: var(--komponenty-success-dark);
-        --contrastColor: var(--komponenty-success-contrast);
+        --lightColor: var(--ka-success-light);
+        --mainColor: var(--ka-success);
+        --darkColor: var(--ka-success-dark);
+        --contrastColor: var(--ka-success-contrast);
     }
 
     .kompButton.colorWarning {
-        --lightColor: var(--komponenty-warning-light);
-        --mainColor: var(--komponenty-warning);
-        --darkColor: var(--komponenty-warning-dark);
-        --contrastColor: var(--komponenty-warning-contrast);
+        --lightColor: var(--ka-warning-light);
+        --mainColor: var(--ka-warning);
+        --darkColor: var(--ka-warning-dark);
+        --contrastColor: var(--ka-warning-contrast);
     }
 
     .kompButton.colorDanger {
-        --lightColor: var(--komponenty-danger-light);
-        --mainColor: var(--komponenty-danger);
-        --darkColor: var(--komponenty-danger-dark);
-        --contrastColor: var(--komponenty-danger-contrast);
+        --lightColor: var(--ka-danger-light);
+        --mainColor: var(--ka-danger);
+        --darkColor: var(--ka-danger-dark);
+        --contrastColor: var(--ka-danger-contrast);
     }
 
     .kompButton.sizeSmall {
-        --fontSize: 0.9em;
-        --padding: 4px 8px;
+        --fontSize: var(--ka-fontSize-sm);
+        --padding: var(--ka-space-xs) var(--ka-space-sm);
     }
 
     .kompButton.sizeMedium {
-        --fontSize: 1em;
-        --padding: 6px 10px;
+        --fontSize: var(--ka-fontSize-md);
+        --padding: var(--ka-space-sm) var(--ka-space-md);
     }
 
     .kompButton.sizeLarge {
-        --fontSize: 1.1em;
-        --padding: 8px 12px;
+        --fontSize: var(--ka-fontSize-lg);
+        --padding: var(--ka-space-md) var(--ka-space-lg);
     }
 
     .kompButton.typeFilled {
     }
 
     .kompButton.typeOutlined {
-        --borderWidth: 1px;
+        --borderWidth: var(--ka-borderWidth-thin);
         --borderColor: var(--mainColor);
         --backgroundColor: transparent;
         --hoverColor: color-mix(in srgb, var(--mainColor) 20%, transparent);
@@ -115,13 +114,13 @@
     box-shadow: var(--boxShadow);
     font-size: var(--fontSize);
     font-weight: var(--fontWeight);
-    font-family: var(--font-family);
+    font-family: var(--ka-fontFamily-base);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: var(--ka-space-xs);
     cursor: pointer;
-    line-height: 1.2;
+    line-height: var(--ka-lineHeight-sm);
 }
 
     .kompButton:hover {

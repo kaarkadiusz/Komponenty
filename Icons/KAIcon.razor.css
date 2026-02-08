@@ -38,27 +38,27 @@ i {
     }
 
     button.colorPrimary {
-        --fontColor: var(--komponenty-primary);
+        --fontColor: var(--ka-primary);
     }
 
     button.colorSecondary {
-        --fontColor: var(--komponenty-secondary);
+        --fontColor: var(--ka-secondary);
     }
 
     button.colorInfo {
-        --fontColor: var(--komponenty-info);
+        --fontColor: var(--ka-info);
     }
 
     button.colorSuccess {
-        --fontColor: var(--komponenty-success);
+        --fontColor: var(--ka-success);
     }
 
     button.colorWarning {
-        --fontColor: var(--komponenty-warning);
+        --fontColor: var(--ka-warning);
     }
 
     button.colorDanger {
-        --fontColor: var(--komponenty-danger);
+        --fontColor: var(--ka-danger);
     }
 
 i {

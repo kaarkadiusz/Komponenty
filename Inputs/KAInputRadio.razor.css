@@ -1,45 +1,45 @@
 .kompInputRadio {
-    --color: var(--komponenty-base-12, currentColor);
-    --helperTextColor: var(--komponenty-base-11);
+    --color: var(--ka-base-12, currentColor);
+    --helperTextColor: var(--ka-base-11);
     --hoverColor: color-mix(in srgb, var(--color) 15%, transparent);
     --pressedColor: color-mix(in srgb, var(--color) 30%, transparent);
 }
 
     .kompInputRadio.color-Primary {
-        --color: var(--komponenty-primary-light);
+        --color: var(--ka-primary-light);
     }
 
     .kompInputRadio.color-Secondary {
-        --color: var(--komponenty-secondary-light);
+        --color: var(--ka-secondary-light);
     }
 
     .kompInputRadio.color-Info {
-        --color: var(--komponenty-info-light);
+        --color: var(--ka-info-light);
     }
 
     .kompInputRadio.color-Success {
-        --color: var(--komponenty-success-light);
+        --color: var(--ka-success-light);
     }
 
     .kompInputRadio.color-Warning {
-        --color: var(--komponenty-warning-light);
+        --color: var(--ka-warning-light);
     }
 
     .kompInputRadio.color-Danger {
-        --color: var(--komponenty-danger-light);
+        --color: var(--ka-danger-light);
     }
 
 .kompInputRadio {
     display: inline-flex;
-    gap: 4px;
+    gap: var(--ka-space-xs);
     align-items: center;
-    line-height: 1.5;
+    line-height: var(--ka-lineHeight-md);
 }
 
 button {
     color: var(--color);
-    padding: 4px;
-    border-radius: 100px;
+    padding: var(--ka-space-xs);
+    border-radius: var(--ka-borderRadius-full);
     border: none;
     background-color: transparent;
     line-height: 0;

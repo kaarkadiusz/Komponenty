@@ -1,44 +1,44 @@
 .kompInputCheckboxWrap {
-    --color: var(--komponenty-base-12, currentColor);
-    --helperTextColor: var(--komponenty-base-11);
+    --color: var(--ka-base-12, currentColor);
+    --helperTextColor: var(--ka-base-11);
     --hoverColor: color-mix(in srgb, var(--color) 15%, transparent);
     --pressedColor: color-mix(in srgb, var(--color) 30%, transparent);
 }
 
     .kompInputCheckboxWrap.color-Primary {
-        --color: var(--komponenty-primary-light);
+        --color: var(--ka-primary-light);
     }
 
     .kompInputCheckboxWrap.color-Secondary {
-        --color: var(--komponenty-secondary-light);
+        --color: var(--ka-secondary-light);
     }
 
     .kompInputCheckboxWrap.color-Info {
-        --color: var(--komponenty-info-light);
+        --color: var(--ka-info-light);
     }
 
     .kompInputCheckboxWrap.color-Success {
-        --color: var(--komponenty-success-light);
+        --color: var(--ka-success-light);
     }
 
     .kompInputCheckboxWrap.color-Warning {
-        --color: var(--komponenty-warning-light);
+        --color: var(--ka-warning-light);
     }
 
     .kompInputCheckboxWrap.color-Danger {
-        --color: var(--komponenty-danger-light);
+        --color: var(--ka-danger-light);
     }
 
     .kompInputCheckboxWrap.validation-Success {
-        --helperTextColor: var(--komponenty-success);
+        --helperTextColor: var(--ka-success);
     }
 
     .kompInputCheckboxWrap.validation-Warning {
-        --helperTextColor: var(--komponenty-warning);
+        --helperTextColor: var(--ka-warning);
     }
 
     .kompInputCheckboxWrap.validation-Error {
-        --helperTextColor: var(--komponenty-danger);
+        --helperTextColor: var(--ka-danger);
     }
 
 .kompInputCheckboxWrap {
@@ -48,15 +48,15 @@
 
 .kompInputCheckbox {
     display: inline-flex;
-    gap: 4px;
+    gap: var(--ka-space-xs);
     align-items: center;
-    line-height: 1.5;
+    line-height: var(--ka-lineHeight-md);
 }
 
 button {
     color: var(--color);
-    padding: 4px;
-    border-radius: 4px;
+    padding: var(--ka-space-xs);
+    border-radius: var(--ka-borderRadius-sm);
     border: none;
     background-color: transparent;
     line-height: 0;
@@ -76,7 +76,7 @@ label {
 }
 
 .helperText {
-    font-size: 70%;
+    font-size: var(--ka-fontSize-xs);
     color: var(--helperTextColor);
     word-break: break-word;
 }

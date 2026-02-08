@@ -1,18 +1,18 @@
 .kompInputRadioGroupWrap {
-    --helperTextColor: var(--komponenty-base-11);
+    --helperTextColor: var(--ka-base-11);
     --flexDirection: row;
 }
 
     .kompInputRadioGroupWrap.validation-Success {
-        --helperTextColor: var(--komponenty-success);
+        --helperTextColor: var(--ka-success);
     }
 
     .kompInputRadioGroupWrap.validation-Warning {
-        --helperTextColor: var(--komponenty-warning);
+        --helperTextColor: var(--ka-warning);
     }
 
     .kompInputRadioGroupWrap.validation-Error {
-        --helperTextColor: var(--komponenty-danger);
+        --helperTextColor: var(--ka-danger);
     }
 
     .kompInputRadioGroupWrap.direction-Row {
@@ -34,7 +34,7 @@
 }
 
 .helperText {
-    font-size: 70%;
+    font-size: var(--ka-fontSize-xs);
     color: var(--helperTextColor);
     word-break: break-word;
 }

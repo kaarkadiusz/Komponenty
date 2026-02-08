@@ -24,9 +24,9 @@ input {
     margin: 0;
     background-color: transparent;
     border: none;
-    color: var(--komponenty-base-12)
+    color: var(--ka-base-12)
 }
 
 .spin-button:hover {
-    background-color: var(--komponenty-base-a4);
+    background-color: var(--ka-base-a4);
 }

@@ -1,63 +1,64 @@
 .ka-toggle {
-    --toggle-backgroundColor: var(--komponenty-base-3);
-    --toggle-backgroundColor-contrast: var(--komponenty-base-contrast);
-    --toggle-size: 36px;
+    --toggle-backgroundColor: var(--ka-base-3);
+    --toggle-backgroundColor-contrast: var(--ka-base-contrast);
     --toggle-cursor: pointer;
-    --valuelist-paddingBlock: 2px;
-    --valuelist-paddingInline: 2px;
-    --valuelist-height: calc(var(--toggle-size) - 4px);
+    --toggle-spacing: var(--ka-space-xs);
+    --valuelist-paddingBlock: calc(var(--toggle-spacing) / 2);
+    --valuelist-paddingInline: calc(var(--toggle-spacing) / 2);
+    --valuelist-height: calc(var(--toggle-size) - var(--toggle-spacing));
     --valuelist-width: auto;
     --valuelist-flexDirection: row;
     --option-width: var(--toggle-size);
     --option-height: unset;
     --indicator-index: 0;
-    --indicator-size: calc(var(--toggle-size) - 4px);
-    --indicator-backgroundColor: var(--komponenty-primary);
+    --indicator-size: calc(var(--toggle-size) - var(--toggle-spacing));
+    --indicator-backgroundColor: var(--ka-primary);
     --indicator-translate: 0 -50%;
+    --indicator-translation: calc(calc(calc(var(--indicator-index) * var(--toggle-size)) + calc(calc(var(--toggle-size) - var(--indicator-size)) / 2)) + var(--valuelist-paddingInline));
     --indicator-top: 50%;
-    --indicator-left: calc(calc(calc(var(--indicator-index) * var(--toggle-size)) + calc(calc(var(--toggle-size) - var(--indicator-size)) / 2)) + var(--valuelist-paddingInline));
+    --indicator-left: var(--indicator-translation);
 }
 
     .ka-toggle.ka-color-Default {
-        --toggle-backgroundColor: var(--komponenty-base-9);
-        --indicator-backgroundColor: var(--komponenty-base-5);
-        --toggle-backgroundColor-contrast: var(--komponenty-base-12);
+        --toggle-backgroundColor: var(--ka-base-9);
+        --indicator-backgroundColor: var(--ka-base-5);
+        --toggle-backgroundColor-contrast: var(--ka-base-12);
     }
 
     .ka-toggle.ka-color-Primary {
-        --toggle-backgroundColor: var(--komponenty-primary-light);
-        --indicator-backgroundColor: var(--komponenty-primary-dark);
-        --toggle-backgroundColor-contrast: var(--komponenty-primary-contrast);
+        --toggle-backgroundColor: var(--ka-primary-light);
+        --indicator-backgroundColor: var(--ka-primary-dark);
+        --toggle-backgroundColor-contrast: var(--ka-primary-contrast);
     }
 
     .ka-toggle.ka-color-Secondary {
-        --toggle-backgroundColor: var(--komponenty-secondary-light);
-        --indicator-backgroundColor: var(--komponenty-secondary-dark);
-        --toggle-backgroundColor-contrast: var(--komponenty-secondary-contrast);
+        --toggle-backgroundColor: var(--ka-secondary-light);
+        --indicator-backgroundColor: var(--ka-secondary-dark);
+        --toggle-backgroundColor-contrast: var(--ka-secondary-contrast);
     }
 
     .ka-toggle.ka-color-Info {
-        --toggle-backgroundColor: var(--komponenty-info-light);
-        --indicator-backgroundColor: var(--komponenty-info-dark);
-        --toggle-backgroundColor-contrast: var(--komponenty-info-contrast);
+        --toggle-backgroundColor: var(--ka-info-light);
+        --indicator-backgroundColor: var(--ka-info-dark);
+        --toggle-backgroundColor-contrast: var(--ka-info-contrast);
     }
 
     .ka-toggle.ka-color-Success {
-        --toggle-backgroundColor: var(--komponenty-success-light);
-        --indicator-backgroundColor: var(--komponenty-success-dark);
-        --toggle-backgroundColor-contrast: var(--komponenty-success-contrast);
+        --toggle-backgroundColor: var(--ka-success-light);
+        --indicator-backgroundColor: var(--ka-success-dark);
+        --toggle-backgroundColor-contrast: var(--ka-success-contrast);
     }
 
     .ka-toggle.ka-color-Warning {
-        --toggle-backgroundColor: var(--komponenty-warning-light);
-        --indicator-backgroundColor: var(--komponenty-warning-dark);
-        --toggle-backgroundColor-contrast: var(--komponenty-warning-contrast);
+        --toggle-backgroundColor: var(--ka-warning-light);
+        --indicator-backgroundColor: var(--ka-warning-dark);
+        --toggle-backgroundColor-contrast: var(--ka-warning-contrast);
     }
 
     .ka-toggle.ka-color-Danger {
-        --toggle-backgroundColor: var(--komponenty-danger-light);
-        --indicator-backgroundColor: var(--komponenty-danger-dark);
-        --toggle-backgroundColor-contrast: var(--komponenty-danger-contrast);
+        --toggle-backgroundColor: var(--ka-danger-light);
+        --indicator-backgroundColor: var(--ka-danger-dark);
+        --toggle-backgroundColor-contrast: var(--ka-danger-contrast);
     }
 
     .ka-toggle.ka-size-Small {
@@ -75,23 +76,22 @@
     .ka-toggle.ka-vertical {
         --valuelist-flexDirection: column;
         --valuelist-height: auto;
-        --valuelist-width: calc(var(--toggle-size) - 4px);
+        --valuelist-width: calc(var(--toggle-size) - var(--toggle-spacing));
         --option-height: var(--toggle-size);
         --indicator-translate: -50% 0;
-        --indicator-top: calc(calc(calc(var(--indicator-index) * var(--toggle-size)) + calc(calc(var(--toggle-size) - var(--indicator-size)) / 2)) + var(--valuelist-paddingInline));
+        --indicator-top: var(--indicator-translation);
         --indicator-left: 50%;
     }
 
 .ka-toggle {
     all: unset;
     border: none;
-    border-radius: 500px;
+    border-radius: var(--ka-borderRadius-full);
     background-color: var(--toggle-backgroundColor);
     color: var(--toggle-backgroundColor-contrast);
     display: inline-block;
-    border-radius: 100px;
     width: fit-content;
-    line-height: 0;
+    line-height: var(--ka-lineHeight-one);
     cursor: var(--toggle-cursor);
     user-select: none;
 }
@@ -101,9 +101,9 @@
     flex-direction: var(--valuelist-flexDirection);
     height: var(--valuelist-height);
     overflow: hidden;
-    border-radius: 100px;
+    border-radius: var(--ka-borderRadius-full);
     position: relative;
-    line-height: 1.2;
+    line-height: var(--ka-lineHeight-sm);
     padding-block: var(--valuelist-paddingBlock);
     padding-inline: var(--valuelist-paddingInline);
 }
@@ -121,12 +121,12 @@
 .ka-toggle-indicator {
     width: var(--indicator-size);
     height: var(--indicator-size);
-    border-radius: 500px;
+    border-radius: var(--ka-borderRadius-full);
     position: absolute;
     left: var(--indicator-left);
     top: var(--indicator-top);
     translate: var(--indicator-translate);
-    transition: left 0.2s ease, top 0.2s ease;
+    transition: left var(--ka-transitionDuration-fast) ease, top var(--ka-transitionDuration-fast) ease;
     background-color: var(--indicator-backgroundColor);
     display: inline-flex;
     justify-content: center;

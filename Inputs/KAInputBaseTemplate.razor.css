@@ -1,12 +1,12 @@
 .kompInputBaseTemplate {
     --borderRadius: 0;
-    --helperTextColor: var(--komponenty-base-11);
-    --backgroundColor: var(--komponenty-base-a3);
-    --borderNormalColor: var(--komponenty-base-11);
-    --borderSuccessColor: var(--komponenty-success);
-    --borderWarningColor: var(--komponenty-warning);
-    --borderErrorColor: var(--komponenty-danger);
-    --borderWidth: 1px;
+    --helperTextColor: var(--ka-base-11);
+    --backgroundColor: var(--ka-base-a3);
+    --borderNormalColor: var(--ka-base-11);
+    --borderSuccessColor: var(--ka-success);
+    --borderWarningColor: var(--ka-warning);
+    --borderErrorColor: var(--ka-danger);
+    --borderWidth: var(--ka-borderWidth-thin);
     --borderColor: var(--borderNormalColor);
     --borderBase: var(--borderWidth) solid var(--borderColor);
     --borderTop: none;
@@ -20,7 +20,7 @@
     }
 
     .kompInputBaseTemplate.typeOutlined {
-        --borderRadius: 4px;
+        --borderRadius: var(--ka-borderRadius-sm);
         --borderTop: var(--borderBase);
         --borderRight: var(--borderBase);
         --borderBottom: var(--borderBase);
@@ -73,7 +73,7 @@
 }
 
     .kompInputWrap:not(:has(:is(:disabled, [readonly]))):is(:focus-within, :active) {
-        border-color: var(--komponenty-primary);
+        border-color: var(--ka-primary);
     }
 
     .kompInputWrap:has(:disabled) {
@@ -89,12 +89,12 @@
     justify-content: center;
     align-self: center;
     pointer-events: none;
-    margin: 0 4px;
+    margin: 0 var(--ka-space-xs);
 }
 
 label {
     font-size: 75%;
-    color: var(--komponenty-base-12);
+    color: var(--ka-base-12);
     word-break: break-word;
 }
 
@@ -107,7 +107,7 @@ label {
 .kompInput {
     flex: 1 1 auto;
     display: inline-flex;
-    gap: 4px;
+    gap: var(--ka-space-xs);
 }
 
     .kompInput ::deep :is(input, textarea, select) {
@@ -115,19 +115,19 @@ label {
         color: inherit;
         border: unset;
         outline: unset;
-        font-size: 0.925em;
-        font-family: var(--font-family);
-        padding: 8px;
+        font-size: var(--ka-fontSize-sm);
+        font-family: var(--ka-fontFamily-base);
+        padding: var(--ka-space-sm);
         box-sizing: border-box;
         width: 100%;
-        line-height: 1.5;
+        line-height: var(--ka-lineHeight-md);
         min-width: min(100%, 20ch);
     }
 
     .kompInput ::deep textarea {
         resize: none;
         scrollbar-width: thin;
-        scrollbar-color: var(--komponenty-base-12) transparent;
+        scrollbar-color: var(--ka-base-12) transparent;
     }
 
     .kompInput ::deep input[type=number] {

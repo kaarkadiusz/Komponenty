@@ -1,0 +1,34 @@
+﻿@inherits KAComponentBase
+
+<div class="@CssClass" @onclick="OnClick">
+    @if (!string.IsNullOrEmpty(Icon))
+    {
+        <div class="kaAlert-icon">
+            <Komponenty.Icons.KAIcon IconSrc="@Icon" Size="Icons.IconSize.Medium" />
+        </div>
+    }
+    <div class="kaAlert-content">
+        @if(TitleFragment is not null)
+        {
+            <div class="kaAlert-title">
+                @TitleFragment
+            </div>
+        }
+        @if(ChildContent is not null)
+        {
+            <div class="kaAlert-description">
+                @ChildContent
+            </div>
+        }
+    </div>
+    @if(OnClose.HasDelegate)
+    {
+        <div class="kaAlert-close" @onclick:stopPropagation>
+            <KAButton OnClick="OnClose" StartIcon="@Icons.Preset.Outline.X" Color="Color" Size="ButtonSize.Small" Type="ButtonType.TextOnly" tabindex="-1"/>
+        </div>
+    }
+</div>
+
+@code {
+
+}

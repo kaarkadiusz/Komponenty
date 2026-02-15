@@ -1,5 +1,5 @@
 i {
-    --fontSize: 1.25rem;
+    --fontSize: 1.25em;
     --minSize: 1em;
     --fontColor: inherit;
 }
@@ -9,28 +9,28 @@ i {
     }
 
     i.sizeUnset {
-        --fontSize: 1rem;
+        --fontSize: 1em;
         --minSize: unset;
     }
 
     i.sizeExtraSmall {
-        --fontSize: 0.75rem;
+        --fontSize: 0.75em;
     }
 
     i.sizeSmall {
-        --fontSize: 1rem;
+        --fontSize: 1em;
     }
 
     i.sizeMedium {
-        --fontSize: 1.25rem;
+        --fontSize: 1.25em;
     }
 
     i.sizeLarge {
-        --fontSize: 1.5rem;
+        --fontSize: 1.5em;
     }
 
     i.sizeExtraLarge {
-        --fontSize: 1.75rem;
+        --fontSize: 1.75em;
     }
 
     button.colorDefault {

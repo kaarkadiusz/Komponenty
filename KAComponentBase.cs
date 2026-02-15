@@ -10,13 +10,22 @@ namespace Komponenty
         [Parameter(CaptureUnmatchedValues = true)]
         public IDictionary<string, object>? Attributes { get; set; }
 
+        protected string CssClass => GetCssClass();
+
+        protected virtual void AppendToCssClass(StringBuilder stringBuilder) { }
+
         protected virtual string GetCssClass()
         {
+            StringBuilder stringBuilder = new();
+
             if (Attributes?.ContainsKey("class") ?? false)
             {
-                return Attributes["class"].ToString() ?? string.Empty;
+                stringBuilder.AppendLine(Attributes["class"].ToString());
             }
-            return string.Empty;
+
+            AppendToCssClass(stringBuilder);
+
+            return stringBuilder.ToString().Replace('\n', ' ');
         }
     }
 }

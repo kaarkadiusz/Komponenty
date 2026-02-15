@@ -1,0 +1,106 @@
+.kaAlert {
+    --kaAlert-padding: var(--ka-space-md);
+    --kaAlert-gap: var(--ka-space-sm) var(--ka-space-md);
+    --kaAlert-fontSize: var(--ka-fontSize-sm);
+    --kaAlert-color: var(--ka-base-12);
+    --kaAlert-backgroundColorPercentage: 10%;
+    --kaAlert-backgroundColor: color-mix(in srgb, var(--kaAlert-color) var(--kaAlert-backgroundColorPercentage), transparent);
+    --kaAlert-borderColor: var(--kaAlert-color);
+    --kaAlert-borderRadius: var(--ka-borderRadius-sm);
+    --kaAlert-borderWidth: var(--ka-borderWidth-thin);
+    --kaAlert-cursor: unset;
+    --kaAlert-title-fontWeight: var(--ka-fontWeight-bold);
+    --kaAlert-description-fontWeight: var(--ka-fontWeight-thin);
+}
+
+    .kaAlert.kaAlert-variantFilled {
+        --kaAlert-backgroundColor: color-mix(in srgb, var(--kaAlert-color) var(--kaAlert-backgroundColorPercentage), transparent);
+        --kaAlert-borderWidth: 0px;
+    }
+
+    .kaAlert.kaAlert-variantOutlined {
+        --kaAlert-backgroundColor: color-mix(in srgb, var(--kaAlert-color) var(--kaAlert-backgroundColorPercentage), transparent);
+        --kaAlert-borderWidth: var(--ka-borderWidth-thin);
+    }
+
+    .kaAlert.kaAlert-colorDefault {
+        --kaAlert-color: var(--ka-base-12);
+    }
+
+    .kaAlert.kaAlert-colorPrimary {
+        --kaAlert-color: var(--ka-primary);
+    }
+
+    .kaAlert.kaAlert-colorSecondary {
+        --kaAlert-color: var(--ka-secondary);
+    }
+
+    .kaAlert.kaAlert-colorInfo {
+        --kaAlert-color: var(--ka-info);
+    }
+
+    .kaAlert.kaAlert-colorSuccess {
+        --kaAlert-color: var(--ka-success);
+    }
+
+    .kaAlert.kaAlert-colorWarning {
+        --kaAlert-color: var(--ka-warning);
+    }
+
+    .kaAlert.kaAlert-colorDanger {
+        --kaAlert-color: var(--ka-danger);
+    }
+
+    .kaAlert.kaAlert-clickable {
+        --kaAlert-cursor: pointer;
+    }
+
+    .kaAlert.kaAlert-dense {
+        --kaAlert-padding: var(--ka-space-xs) var(--ka-space-sm);
+        --kaAlert-gap: 0 var(--ka-space-xs);
+    }
+
+.kaAlert {
+    display: flex;
+    padding: var(--kaAlert-padding);
+    gap: var(--kaAlert-gap);
+    border: var(--kaAlert-borderWidth) solid var(--kaAlert-borderColor);
+    border-radius: var(--kaAlert-borderRadius);
+    color: var(--kaAlert-color);
+    background-color: var(--kaAlert-backgroundColor);
+    align-items: start;
+    cursor: var(--kaAlert-cursor);
+}
+
+    .kaAlert:has(.kaAlert-icon) {
+        grid-template-columns: max-content 1fr;
+    }
+
+    .kaAlert.kaAlert-clickable:hover {
+        --kaAlert-backgroundColorPercentage: 15%;
+    }
+
+.kaAlert-icon {
+    margin-top: 1px;
+    width: 1.25em;
+    aspect-ratio: 1 / 1;
+}
+
+.kaAlert-content {
+    flex: 1;
+    display: inline-flex;
+    flex-direction: column;
+    gap: var(--kaAlert-gap);
+}
+
+.kaAlert-title {
+    font-weight: var(--kaAlert-title-fontWeight);
+}
+
+.kaAlert-description {
+    font-weight: var(--kaAlert-description-fontWeight);
+}
+
+.kaAlert-close {
+
+}

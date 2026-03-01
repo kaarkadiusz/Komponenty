@@ -35,7 +35,6 @@ namespace Komponenty.Inputs
 
             switch (RecentValidationResult?.Status)
             {
-                case ValidationStatus.Initial:
                 case null:
                     break;
                 default:

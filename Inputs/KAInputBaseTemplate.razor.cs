@@ -19,7 +19,7 @@ namespace Komponenty.Inputs
         [Parameter]
         public string? AdornmentText { get; set; }
         [Parameter]
-        public InputType Type { get; set; }
+        public InputVariant Variant { get; set; }
 
         [Parameter, EditorRequired]
         public RenderFragment ChildContent { get; set; }
@@ -28,7 +28,7 @@ namespace Komponenty.Inputs
         [Parameter]
         public string? HtmlId { get; set; }
         [Parameter]
-        public ValidationResult? ValidationResult { get; set; }
+        public KAValidationResult? ValidationResult { get; set; }
         [Parameter]
         public bool ReadOnly { get; set; }
         [Parameter]
@@ -47,20 +47,19 @@ namespace Komponenty.Inputs
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("kompInputBaseTemplate");
-            sb.AppendLine($"type{Type}");
+            sb.AppendLine($"type{Variant}");
             if (ValidationResult is not null)
             {
                 sb.AppendLine($"validation{ValidationResult.Status}");
                 switch (ValidationResult.Status)
                 {
-                    case ValidationStatus.Success:
-                    case ValidationStatus.Warning:
+                    case KAValidationStatus.Success:
+                    case KAValidationStatus.Warning:
                         sb.AppendLine("valid");
                         break;
-                    case ValidationStatus.Error:
+                    case KAValidationStatus.Error:
                         sb.AppendLine("invalid");
                         break;
-                    case ValidationStatus.Initial:
                     default:
                         break;
                 }

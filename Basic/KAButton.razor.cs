@@ -15,9 +15,9 @@ namespace Komponenty.Basic
         [Parameter]
         public string? Text { get; set; }
         [Parameter]
-        public ButtonType Type
+        public ButtonVariant Variant
         {
-            get => ButtonGroup?.Type ?? field;
+            get => ButtonGroup?.Variant ?? field;
             set => field = value;
         }
         [Parameter]
@@ -50,7 +50,7 @@ namespace Komponenty.Basic
             StringBuilder sb = new();
 
             sb.AppendLine("kompButton");
-            sb.AppendLine($"type{Type}");
+            sb.AppendLine($"type{Variant}");
             sb.AppendLine($"color{Color}");
             sb.AppendLine($"size{Size}");
 
@@ -69,7 +69,7 @@ namespace Komponenty.Basic
         }
     }
 
-    public enum ButtonType
+    public enum ButtonVariant
     {
         Filled,
         Outlined,

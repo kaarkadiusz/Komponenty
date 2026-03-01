@@ -13,30 +13,29 @@ namespace Komponenty.Inputs
     public abstract class KAInputBase<T> : InputBase<T>, IKAInputComponent
     {
         [Parameter]
-        public virtual string? Label { get; set; }
+        public string? Label { get; set; }
         [Parameter]
-        public virtual string? HelperText { get; set; }
+        public string? HelperText { get; set; }
         [Parameter]
-        public virtual bool Disabled { get; set; }
+        public bool Disabled { get; set; }
         [Parameter]
-        public virtual bool ReadOnly { get; set; }
+        public bool ReadOnly { get; set; }
         [Parameter]
-        public virtual AdornmentPosition? AdornmentPosition { get; set; }
+        public AdornmentPosition? AdornmentPosition { get; set; }
         [Parameter]
-        public virtual string? AdornmentIcon { get; set; }
+        public string? AdornmentIcon { get; set; }
         [Parameter]
-        public virtual string? AdornmentText { get; set; }
+        public string? AdornmentText { get; set; }
         [Parameter]
-        public virtual InputType Type { get; set; } = InputType.Filled;
+        public InputVariant Variant { get; set; } = InputVariant.Filled;
 
         [Parameter]
-        public virtual ValueEvent ValueEvent { get; set; } = ValueEvent.OnChange;
+        public ValueEvent ValueEvent { get; set; } = ValueEvent.OnChange;
+
         [Parameter]
-        public virtual Func<Task<ValidationResult?>>? ValidateTask { get; set; }
+        public KAValidation<T>? Validation { get; set; }
         [Parameter]
-        public virtual ValidationBehavior ValidationBehavior { get; set; } = ValidationBehavior.OnValueChange;
-        [Parameter]
-        public bool DisableDataAnnotationsValidation { get; set; }
+        public ValidationBehavior ValidationBehavior { get; set; } = ValidationBehavior.OnValueChange;
 
         protected ElementReference? ElementReference { get; set; }
         protected string IdAttribute => $"{GetType().Name}-{GetHashCode()}";
@@ -55,7 +54,12 @@ namespace Komponenty.Inputs
             }
         }
 
-        public ValidationResult? RecentValidationResult { get; protected set; }
+        public KAValidationResult? RecentValidationResult { get; private set; }
+        public IReadOnlyList<KAValidationResult> ValidationResults => _validationResults;
+        private readonly List<KAValidationResult> _validationResults = [];
+
+        public IEnumerable<string>? GetValidationErrors() => EditContext?.GetValidationMessages(FieldIdentifier);
+        private ValidationMessageStore? _validationMessageStore = null!;
 
         protected KAInputBase()
         {
@@ -65,6 +69,20 @@ namespace Komponenty.Inputs
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
+            await ThrowIfInvalidType();
+
+            if(EditContext is not null)
+            {
+                _validationMessageStore = new(EditContext);
+                EditContext.OnValidationRequested += HandleValidationRequest;
+            }
+        }
+        private async void HandleValidationRequest(object? sender, ValidationRequestedEventArgs args)
+        {
+            await ValidateAsync();
+        }
+        private Task ThrowIfInvalidType()
+        {
             if (ValidTypes.Length > 0)
             {
                 Type providedType = typeof(T);
@@ -73,6 +91,7 @@ namespace Komponenty.Inputs
                     throw new InvalidOperationException($"The provided generic type {providedType.Name} is not a valid type for {GetType().Name}.\nValid types include: {string.Join(", ", ValidTypes)}");
                 }
             }
+            return Task.CompletedTask;
         }
 
         protected override void OnParametersSet()
@@ -81,27 +100,9 @@ namespace Komponenty.Inputs
             base.OnParametersSet();
         }
 
-        protected override bool TryParseValueFromString(string? value, out T result, [NotNullWhen(false)] out string? validationErrorMessage)
+        protected override bool TryParseValueFromString(string? value, [MaybeNullWhen(false)] out T result, [NotNullWhen(false)] out string? validationErrorMessage)
         {
-            validationErrorMessage = default;
-            string validationDefaultError = "There was an error parsing value.";
-
-            if (value is null)
-            {
-                result = default!;
-                return true;
-            }
-            try
-            {
-                result = (T)(object)value;
-            }
-            catch
-            {
-                validationErrorMessage = validationDefaultError;
-                result = default!;
-                return false;
-            }
-            return true;
+            throw new NotImplementedException();
         }
 
         protected virtual string GetCssClass()
@@ -116,44 +117,90 @@ namespace Komponenty.Inputs
             return sb.ToString();
         }
 
-
-        public virtual async Task Validate()
+        protected virtual async Task InvokeValueChanged(T? value)
         {
-            RecentValidationResult = null;
-            if (ValidateTask is not null)
+            if (Disabled || ReadOnly)
             {
-                RecentValidationResult = await ValidateTask.Invoke();
+                return;
             }
-            RecentValidationResult ??= (DisableDataAnnotationsValidation ? null : ValidateDataAnnotations());
+
+            CurrentValue = value;
+
+            await TryValidate();
+        }
+        protected async Task InvokeValueChanged(object? value)
+        {
+            T? result = (T?)value ?? default;
+            await InvokeValueChanged(result);
+        }
+
+        private const int ValidateDebounceDelay = 500;
+        private CancellationTokenSource ValidateDebounceCTS { get; set; } = new();
+        private async Task TryValidate()
+        {
+            switch (ValidationBehavior)
+            {
+                case ValidationBehavior.OnValueChange:
+                    await ValidateAsync();
+                    break;
+                case ValidationBehavior.OnValueChangeWithDebouncing:
+                    ValidateDebounceCTS.Cancel();
+                    ValidateDebounceCTS = new();
+                    CancellationToken token = ValidateDebounceCTS.Token;
+                    await Task.Delay(ValidateDebounceDelay, token).ContinueWith(async task =>
+                    {
+                        if (task.IsCompletedSuccessfully)
+                        {
+                            await ValidateAsync();
+                        }
+                    });
+                    break;
+                case ValidationBehavior.Manual:
+                default:
+                    break;
+            }
+        }
+
+        public virtual async Task ValidateAsync()
+        {
+            _validationMessageStore?.Clear();
+            _validationResults.Clear();
+            EditContext?.NotifyFieldChanged(FieldIdentifier);
+            if (Validation is not null)
+            {
+                IEnumerable<KAValidationResult>? validationResults = await Validation.ValidateAsync(CurrentValue);
+                if(validationResults is not null)
+                {
+                    _validationResults.AddRange(validationResults);
+                    IEnumerable<KAValidationResult> validationErrors = validationResults.Where(validationResult => validationResult.Status is KAValidationStatus.Error);
+                    if(validationErrors.Any() && _validationMessageStore is not null)
+                    {
+                        foreach(KAValidationResult validationResult in validationErrors)
+                        {
+                            _validationMessageStore.Add(FieldIdentifier, validationResult.Message ?? string.Empty);
+                        }
+                        EditContext?.NotifyValidationStateChanged();
+                    }
+                }
+            }
+
+            await RefreshRecentValidationResult();
+
             await InvokeAsync(StateHasChanged);
         }
-        private ValidationResult? ValidateDataAnnotations()
+
+        private Task RefreshRecentValidationResult()
         {
-            object? value = null;
-            IEnumerable<ValidationAttribute> validationAttributes = [];
-            if (FieldIdentifier.Model.GetType().GetProperty(FieldIdentifier.FieldName) is PropertyInfo propertyInfo && propertyInfo.GetGetMethod(nonPublic: false) is not null)
+            string? error = EditContext?.GetValidationMessages(FieldIdentifier).FirstOrDefault();
+            if(error is not null)
             {
-                value = propertyInfo.GetValue(FieldIdentifier.Model);
-                validationAttributes = propertyInfo.GetCustomAttributes<ValidationAttribute>();
+                RecentValidationResult = new KAValidationResult(error);
             }
-            else if (FieldIdentifier.Model.GetType().GetField(FieldIdentifier.FieldName) is FieldInfo fieldInfo && fieldInfo.IsPublic)
+            else
             {
-                value = fieldInfo.GetValue(FieldIdentifier.Model);
-                validationAttributes = fieldInfo.GetCustomAttributes<ValidationAttribute>();
+                RecentValidationResult = ValidationResults.Count > 0 ? ValidationResults[0] : null;
             }
-
-            ValidationContext context = new(FieldIdentifier.Model)
-            {
-                MemberName = FieldIdentifier.FieldName
-            };
-            ICollection<System.ComponentModel.DataAnnotations.ValidationResult> validationResults = [];
-            Validator.TryValidateValue(value, context, validationResults, validationAttributes);
-            if (validationResults.FirstOrDefault() is System.ComponentModel.DataAnnotations.ValidationResult validationResult)
-            {
-                return new ValidationResult() { Message = validationResult.ErrorMessage, Status = ValidationStatus.Error };
-            }
-
-            return null;
+            return Task.CompletedTask;
         }
 
         public virtual async Task FocusAsync()
@@ -164,53 +211,16 @@ namespace Komponenty.Inputs
             }
         }
 
-        protected virtual async Task InvokeValueChanged(T? value)
-        {
-            await ValueChanged.InvokeAsync(value);
-            await TryValidate();
-        }
-        protected async Task InvokeValueChanged(object? value)
-        {
-            if (Disabled || ReadOnly)
-            {
-                return;
-            }
-            T? result = (T?)value ?? default;
-            await InvokeValueChanged(result);
-        }
-
-        private const int ValidateDebounceDelay = 500;
-
-        private CancellationTokenSource ValidateDebounceCTS { get; set; } = new();
-        private async Task TryValidate()
-        {
-            switch (ValidationBehavior)
-            {
-                case ValidationBehavior.OnValueChange:
-                    await Validate();
-                    break;
-                case ValidationBehavior.OnValueChangeWithDebouncing:
-                    ValidateDebounceCTS.Cancel();
-                    ValidateDebounceCTS = new();
-                    CancellationToken token = ValidateDebounceCTS.Token;
-                    await Task.Delay(ValidateDebounceDelay, token).ContinueWith(async task =>
-                    {
-                        if (task.IsCompletedSuccessfully)
-                        {
-                            await Validate();
-                        }
-                    });
-                    break;
-                case ValidationBehavior.Manual:
-                default:
-                    break;
-            }
-        }
-
         private new object? DisplayName { get; }
+
+        protected override void Dispose(bool disposing)
+        {
+            EditContext?.OnValidationRequested -= HandleValidationRequest;
+            base.Dispose(disposing);
+        }
     }
 
-    public enum InputType
+    public enum InputVariant
     {
         Filled,
         Outlined,

@@ -1,14 +1,14 @@
 ﻿@inherits KAInputBase<string>
 
 <KAInputBaseTemplate Label="@Label"
-                   HelperText="@HelperText"
-                   AdornmentPosition="@AdornmentPosition"
-                   AdornmentIcon="@AdornmentIcon"
-                   AdornmentText="@AdornmentText"
-                   Type="@Type"
-                   FocusInputTask="FocusAsync"
-                   HtmlId="@IdAttribute"
-                   ValidationResult="RecentValidationResult">
+                     HelperText="@HelperText"
+                     AdornmentPosition="@AdornmentPosition"
+                     AdornmentIcon="@AdornmentIcon"
+                     AdornmentText="@AdornmentText"
+                     Variant="@Variant"
+                     FocusInputTask="FocusAsync"
+                     HtmlId="@IdAttribute"
+                     ValidationResult="RecentValidationResult">
     <textarea @ref="ElementReference"
               @attributes="AdditionalAttributes"
               id="@IdAttribute"
@@ -23,7 +23,7 @@
               @bind-value:event="@BoundEvent" />
 </KAInputBaseTemplate>
 
-<div id=@TextAreaFakeIdAttribute class="textareafake"/>
+<div id=@TextAreaFakeIdAttribute class="textareafake" />
 
 @code {
 

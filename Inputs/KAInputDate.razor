@@ -2,14 +2,14 @@
 @inherits KAInputBase<T>
 
 <KAInputBaseTemplate Label="@Label"
-                   HelperText="@HelperText"
-                   AdornmentPosition="@AdornmentPosition"
-                   AdornmentIcon="@AdornmentIcon"
-                   AdornmentText="@AdornmentText"
-                   Type="@Type"
-                   FocusInputTask="FocusAsync"
-                   HtmlId="@IdAttribute"
-                   ValidationResult="RecentValidationResult">
+                     HelperText="@HelperText"
+                     AdornmentPosition="@AdornmentPosition"
+                     AdornmentIcon="@AdornmentIcon"
+                     AdornmentText="@AdornmentText"
+                     Variant="@Variant"
+                     FocusInputTask="FocusAsync"
+                     HtmlId="@IdAttribute"
+                     ValidationResult="RecentValidationResult">
     @switch (ValueType)
     {
         case ValueTypeEnum.DateTime:

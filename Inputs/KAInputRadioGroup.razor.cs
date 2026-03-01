@@ -47,7 +47,7 @@ namespace Komponenty.Inputs
 
         private string? GetHelperText()
         {
-            if (!string.IsNullOrEmpty(RecentValidationResult?.Message))
+            if (RecentValidationResult is not null && !string.IsNullOrEmpty(RecentValidationResult.Message))
             {
                 return RecentValidationResult.Message;
             }
@@ -61,13 +61,13 @@ namespace Komponenty.Inputs
             sb.AppendLine("kompInputRadioGroupWrap");
             sb.AppendLine($"direction-{Direction}");
 
-            switch (RecentValidationResult?.Status)
+            KAValidationResult? validationResult = RecentValidationResult;
+            switch (validationResult?.Status)
             {
-                case ValidationStatus.Initial:
                 case null:
                     break;
                 default:
-                    sb.AppendLine($"validation-{RecentValidationResult.Status}");
+                    sb.AppendLine($"validation-{validationResult.Status}");
                     break;
             }
 

@@ -12,7 +12,7 @@ namespace Komponenty.Inputs
         AdornmentPosition? AdornmentPosition { get; set; }
         string? AdornmentIcon { get; set; }
         string? AdornmentText { get; set; }
-        InputType Type { get; set; }
+        InputVariant Variant { get; set; }
         bool ReadOnly { get; set; }
         bool Disabled { get; set; }
     }

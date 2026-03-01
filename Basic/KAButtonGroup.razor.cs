@@ -12,7 +12,7 @@ namespace Komponenty.Basic
         public ButtonGroupDirection Direction { get; set; } = ButtonGroupDirection.Row;
 
         [Parameter]
-        public ButtonType? Type { get; set; }
+        public ButtonVariant? Variant { get; set; }
         [Parameter]
         public Color? Color { get; set; }
         [Parameter]

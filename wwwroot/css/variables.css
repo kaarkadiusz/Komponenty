@@ -462,8 +462,50 @@
     --ka-zIndex-dropdown: 1000;
     --ka-zIndex-sticky: 1010;
     --ka-zIndex-fixed: 1020;
-    --ka-zIndex-modal-backdrop: 1030;
-    --ka-zIndex-modal: 1040;
-    --ka-zIndex-popover: 1050;
-    --ka-zIndex-tooltip: 1060;
+    --ka-zIndex-modal: 1030;
+    --ka-zIndex-popover: 1040;
+    --ka-zIndex-tooltip: 1050;
+}
+
+@keyframes kaAnim-entrance {
+    0% {
+        opacity: 0.2;
+        scale: 0.9;
+    }
+
+    100% {
+        opacity: 1;
+        scale: 1;
+    }
+}
+
+@keyframes kaAnim-exit {
+    0% {
+        opacity: 1;
+        scale: 1;
+    }
+
+    100% {
+        opacity: 0.2;
+        scale: 0.9;
+    }
+}
+
+@keyframes kaAnim-fadein {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes kaAnim-fadeout {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }

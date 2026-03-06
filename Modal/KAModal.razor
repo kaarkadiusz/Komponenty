@@ -1,0 +1,13 @@
+﻿@inherits KAComponentBase
+
+@if(!string.IsNullOrEmpty(_sectionName))
+{
+    <Microsoft.AspNetCore.Components.Sections.SectionContent SectionName="@_sectionName">
+        <div class="@GetCssClass()">
+            <div class="ka-modal-backdrop" @onclick="CloseAsync"></div>
+            <div class="ka-modal-content">
+                @ChildContent
+            </div>
+        </div>
+    </Microsoft.AspNetCore.Components.Sections.SectionContent>
+}

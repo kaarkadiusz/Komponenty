@@ -1,0 +1,7 @@
+﻿@using Microsoft.AspNetCore.Components.Sections
+
+@foreach(string sectionName in SectionNames.Reverse())
+{
+    <SectionOutlet SectionName="@sectionName" />
+}
+

@@ -1,0 +1,47 @@
+.ka-modal {
+    --kaModalContent-animationName: kaAnim-entrance;
+    --kaModalBackdrop-animationName: kaAnim-fadein;
+}
+
+    .ka-modal.ka-transition-Enter {
+        --kaModalContent-animationName: kaAnim-entrance;
+        --kaModalBackdrop-animationName: kaAnim-fadein;
+    }
+
+    .ka-modal.ka-transition-Exit {
+        --kaModalContent-animationName: kaAnim-exit;
+        --kaModalBackdrop-animationName: kaAnim-fadeout;
+    }
+
+.ka-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: var(--ka-zIndex-modal);
+}
+
+.ka-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: color-mix(in srgb, #1a1a1a 40%, transparent);
+    animation-name: var(--kaModalBackdrop-animationName);
+    animation-duration: var(--ka-transitionDuration-fast);
+    animation-fill-mode: forwards;
+}
+
+.ka-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    background-color: var(--ka-base-9);
+    animation-name: var(--kaModalContent-animationName);
+    animation-duration: var(--ka-transitionDuration-fast);
+    animation-fill-mode: forwards;
+    box-shadow: var(--ka-boxShadow-md);
+}

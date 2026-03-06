@@ -4,30 +4,14 @@ namespace Komponenty.Modal
 {
     public class KAModalService
     {
-        internal delegate Task<KAModalReference?> OpenHandler_OpenThroughModal();
-        internal delegate Task<KAModalReference?> OpenHandler_OpenThroughService(Type componentType, IDictionary<string, object>? componentParameters = null);
-        internal delegate Task CloseHandler(KAModalReference modalReference);
+        internal event Action? ModalsChanged;
 
-        internal event OpenHandler_OpenThroughModal? OpenThroughModalRequested;
-        internal event OpenHandler_OpenThroughService? OpenThroughServiceRequested;
-        internal event CloseHandler? OnCloseRequest;
-
-        public event Action? OnModalClosed;
-
-        internal async Task<KAModalReference?> Open()
-        {
-            KAModalReference? modalReference = await (OpenThroughModalRequested?.Invoke() ?? Task.FromResult<KAModalReference?>(null));
-            return modalReference;
-        }
-        internal async Task Close(KAModalReference modalReference)
-        {
-            await (OnCloseRequest?.Invoke(modalReference) ?? Task.CompletedTask);
-        }
+        internal IReadOnlyList<KAModalReference> Modals => _modals;
+        private List<KAModalReference> _modals = [];
 
         public async Task<KAModalReference?> OpenAsync(Type componentType, IDictionary<string, object>? componentParameters = null)
         {
-            KAModalReference? modalReference = await (OpenThroughServiceRequested?.Invoke(componentType, componentParameters) ?? Task.FromResult<KAModalReference?>(null));
-            return modalReference;
+            return await CreateKAModalReference(componentType, componentParameters);
         }
         public async Task<KAModalReference?> OpenAsync<T>(IDictionary<string, object>? componentParameters = null) where T : ComponentBase
         {
@@ -35,14 +19,59 @@ namespace Komponenty.Modal
         }
         public async Task CloseAsync(KAModalReference modalReference)
         {
-            if(modalReference.ModalRef is not null)
+            await CloseModalTree(modalReference);
+            if(modalReference.IsDynamicComponent)
             {
-                await modalReference.ModalRef.CloseAsync();
+                await DestroyKAModalReference(modalReference);
             }
-            else
+        }
+
+        internal async Task<KAModalReference> CreateKAModalReference()
+        {
+            return await CreateKAModalReference(null, null);
+        }
+        internal async Task DestroyKAModalReference(KAModalReference modalReference)
+        {
+            await RemoveModalTree(modalReference);
+        }
+
+        private async Task<KAModalReference> CreateKAModalReference(Type? componentType = null, IDictionary<string, object>? componentParameters = null)
+        {
+            KAModalReference modalReference = new(GetNewSectionName(), componentType, componentParameters);
+            _modals.Add(modalReference);
+            ModalsChanged?.Invoke();
+            return modalReference;
+        }
+        private async Task CloseModalTree(KAModalReference modalReference)
+        {
+            int modalReferenceIdx = _modals.IndexOf(modalReference);
+            if(modalReferenceIdx == -1)
             {
-                await Close(modalReference);
+                return;
             }
+
+            await Task.WhenAll(_modals[modalReferenceIdx..].Select(modalReference => modalReference.ModalRef?.CloseInternal() ?? Task.CompletedTask));
+        }
+        private async Task RemoveModalTree(KAModalReference modalReference)
+        {
+            int modalReferenceIdx = _modals.IndexOf(modalReference);
+            if (modalReferenceIdx == -1)
+            {
+                return;
+            }
+
+            _modals.RemoveRange(modalReferenceIdx, _modals.Count - modalReferenceIdx);
+            ModalsChanged?.Invoke();
+        }
+
+        private string GetNewSectionName()
+        {
+            string guid = Guid.NewGuid().ToString();
+            while (_modals.Any(modal => Equals(modal.SectionName, guid)))
+            {
+                guid = Guid.NewGuid().ToString();
+            }
+            return guid;
         }
     }
 }

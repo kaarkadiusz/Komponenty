@@ -3,10 +3,10 @@ using System.Text;
 
 namespace Komponenty.Modal
 {
-    public partial class KAModal : KAComponentBase
+    public partial class KAModal : KAComponentBase, IAsyncDisposable
     {
         [CascadingParameter]
-        internal KAModalReference? ModalReference { get; set; }
+        internal Func<KAModalReference>? GetReferenceFunc { get; set; }
 
         [Parameter]
         public EventCallback<bool> IsOpenChanged { get; set; }
@@ -16,20 +16,33 @@ namespace Komponenty.Modal
         [Inject]
         private IServiceProvider ServiceProvider { get; set; } = null!;
 
-        public bool IsOpen => ModalReference is not null;
-
         private KAModalService? ModalService { get; set; }
 
+        public bool IsOpen { get; private set; }
+
         private Transition _currentTransition = Transition.None;
+        private KAModalReference? ModalReference { get; set; }
+        private bool IsServiceModal { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             ModalService = ServiceProvider.GetModalService();
-            if (ModalReference is not null)
+            await InitializeModalReference();
+            await base.OnInitializedAsync();
+        }
+        private async Task InitializeModalReference()
+        {
+            if (GetReferenceFunc is not null)
             {
+                ModalReference = GetReferenceFunc();
+                IsServiceModal = true;
                 await OpenAsync();
             }
-            await base.OnInitializedAsync();
+            else if (ModalService is not null)
+            {
+                ModalReference = await ModalService.CreateKAModalReference();
+            }
+            ModalReference?.ModalRef = this;
         }
 
         protected override void AppendToCssClass(StringBuilder stringBuilder)
@@ -44,37 +57,22 @@ namespace Komponenty.Modal
 
         public async Task OpenAsync()
         {
-            if (await GetModalReferenceAsync() is KAModalReference modalReference)
-            {
-                await PlayTransition(Transition.Enter);
-            }
-        }
-        private async Task<KAModalReference?> GetModalReferenceAsync(bool createNew = true)
-        {
-            if (ModalReference is not null)
-            {
-                return ModalReference;
-            }
-            else if (createNew)
-            {
-                KAModalReference? modalReference = await (ModalService?.Open() ?? Task.FromResult<KAModalReference?>(null));
-                ModalReference = modalReference;
-                ModalReference?.ModalRef = this;
-                return ModalReference;
-            }
-            return null;
+            IsOpen = true;
+            StateHasChanged();
+            await PlayTransition(Transition.Enter);
         }
         public async Task CloseAsync()
         {
-            if (await GetModalReferenceAsync(false) is KAModalReference modalReference)
+            if (ModalService is not null && ModalReference is not null)
             {
-                await (ModalService?.Close(modalReference) ?? Task.CompletedTask);
-                ModalReference = null;
+                await ModalService.CloseAsync(ModalReference);
             }
         }
-        public async Task PlayExit()
+        internal async Task CloseInternal()
         {
             await PlayTransition(Transition.Exit);
+            IsOpen = false;
+            StateHasChanged();
         }
 
         private CancellationTokenSource PlayTransitionCTS { get; set; } = new();
@@ -95,6 +93,14 @@ namespace Komponenty.Modal
                 return;
             }
             _currentTransition = Transition.None;
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if(ModalService is not null && ModalReference is not null)
+            {
+                await ModalService.DestroyKAModalReference(ModalReference);
+            }
         }
 
         private enum Transition

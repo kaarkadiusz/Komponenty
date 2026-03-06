@@ -1,6 +1,6 @@
 ﻿@inherits KAComponentBase
 
-@if(ModalReference is not null)
+@if(ModalReference is not null && IsOpen)
 {
     <Microsoft.AspNetCore.Components.Sections.SectionContent SectionName="@ModalReference.SectionName">
         <div class="@GetCssClass()">

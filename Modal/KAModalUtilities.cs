@@ -15,7 +15,7 @@ namespace Komponenty.Modal
             }
             else
             {
-                Console.Error.WriteLine($"{nameof(KAModalOutlet)} component could not find the {nameof(KAModalService)} service. Modals will not work correctly.");
+                Console.Error.WriteLine($"A modal component could not resolve the {nameof(KAModalService)} service. Modals will not work correctly.");
             }
 
             return null;

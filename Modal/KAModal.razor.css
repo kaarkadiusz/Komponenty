@@ -1,6 +1,6 @@
 .ka-modal {
-    --kaModalContent-animationName: kaAnim-entrance;
-    --kaModalBackdrop-animationName: kaAnim-fadein;
+    --kaModalContent-animationName: unset;
+    --kaModalBackdrop-animationName: unset;
 }
 
     .ka-modal.ka-transition-Enter {

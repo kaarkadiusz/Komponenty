@@ -14,36 +14,76 @@ namespace Komponenty.Modal
 
         private KAModalService? ModalService { get; set; }
 
+        Stack<KAModalReference> Modals { get; set; } = [];
+
         protected override Task OnInitializedAsync()
         {
             ModalService = ServiceProvider.GetModalService();
-            ModalService?.OnOpenRequest += Open;
+            ModalService?.OpenThroughModalRequested += OpenThroughModal;
+            ModalService?.OpenThroughServiceRequested += OpenThroughService;
             ModalService?.OnCloseRequest += Close;
             return base.OnInitializedAsync();
         }
 
-        Stack<string> SectionNames { get; set; } = [];
+        private Task<KAModalReference?> OpenThroughModal()
+        {
+            string sectionName = GetNewGUID();
 
-        private Task Open(TaskCompletionSource<string> taskCompletionSource)
-        {
-            string sectionName = Guid.NewGuid().ToString();
-            while (SectionNames.Contains(sectionName))
-            {
-                sectionName = Guid.NewGuid().ToString();
-            }
-            SectionNames.Push(sectionName);
+            KAModalReference modalReference = new(sectionName);
+            Modals.Push(modalReference);
             StateHasChanged();
-            taskCompletionSource.SetResult(sectionName);
-            return Task.CompletedTask;
+
+            return Task.FromResult<KAModalReference?>(modalReference);
         }
-        private Task Close(string sectionName)
+        private async Task<KAModalReference> OpenThroughService(Type componentType, IDictionary<string, object>? componentParameters = null)
         {
-            while(SectionNames.Count > 0 && SectionNames.Pop() != sectionName)
-            {
-                
-            }
+            string sectionName = GetNewGUID();
+
+            KAModalReference modalReference = new(sectionName, componentType, componentParameters);
+            Modals.Push(modalReference);
             StateHasChanged();
-            return Task.CompletedTask;
+            if(modalReference.ModalRef is not null)
+            {
+                await modalReference.ModalRef.OpenAsync();
+            }
+
+            return modalReference;
+        }
+        private string GetNewGUID()
+        {
+            string guid = Guid.NewGuid().ToString();
+            while (Modals.Any(modal => Equals(modal.SectionName, guid)))
+            {
+                guid = Guid.NewGuid().ToString();
+            }
+            return guid;
+        }
+        private async Task Close(KAModalReference modalReference)
+        {
+            if(!Modals.Contains(modalReference))
+            {
+                return;
+            }
+
+            List<Task> closeTasks = [];
+            foreach(KAModalReference curr in Modals)
+            {
+                closeTasks.Add(curr.ModalRef?.PlayExit() ?? Task.CompletedTask);
+                if (curr == modalReference)
+                {
+                    break;
+                }
+            }
+            await Task.WhenAll(closeTasks);
+            while (Modals.Count > 0)
+            {
+                KAModalReference curr = Modals.Pop();
+                StateHasChanged();
+                if(curr == modalReference)
+                {
+                    break;
+                }
+            }
         }
     }
 }

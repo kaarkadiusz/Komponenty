@@ -1,7 +1,16 @@
 ﻿@using Microsoft.AspNetCore.Components.Sections
 
-@foreach(string sectionName in SectionNames.Reverse())
+@foreach (KAModalReference modalReference in Modals.Reverse())
 {
-    <SectionOutlet SectionName="@sectionName" />
+    <SectionOutlet SectionName="@modalReference.SectionName" />
+
+    @if (modalReference.IsDynamicComponent)
+    {
+        <CascadingValue TValue="KAModalReference" Value="modalReference">
+            <KAModal @ref="modalReference.ModalRef">
+                <DynamicComponent Type="@modalReference.ComponentType" Parameters="@modalReference.ComponentParameters" />
+            </KAModal>
+        </CascadingValue>
+    }
 }
 

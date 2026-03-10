@@ -78,9 +78,10 @@ namespace Komponenty.Inputs
             await Task.Delay(250);
             RefreshCurrentRowsTCS.TrySetResult();
         }
+        private CancellationTokenSource CTS { get; set; } = new();
         private async Task<int> GetTextAreaRows()
         {
-            return await JavascriptService.GetTextAreaLineCount(IdAttribute, TextAreaFakeIdAttribute);
+            return await JavascriptService.GetTextAreaLineCount(IdAttribute, TextAreaFakeIdAttribute, CTS.Token);
         }
 
         protected override string GetCssClass()
@@ -90,6 +91,11 @@ namespace Komponenty.Inputs
             sb.AppendLine(base.GetCssClass());
 
             return sb.ToString();
+        }
+        protected override void Dispose(bool disposing)
+        {
+            CTS.Cancel();
+            base.Dispose(disposing);
         }
     }
 }

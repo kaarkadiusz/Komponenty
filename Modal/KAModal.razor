@@ -1,13 +1,55 @@
 ﻿@inherits KAComponentBase
 
-@if(ModalReference is not null && IsOpen)
+@if(ModalReference is not null && (IsOpen || KeepMounted))
 {
     <Microsoft.AspNetCore.Components.Sections.SectionContent SectionName="@ModalReference.SectionName">
-        <div class="@GetCssClass()">
-            <div class="ka-modal-backdrop" @onclick="CloseAsync"></div>
-            <div class="ka-modal-content">
-                @ChildContent
+        <div class="@GetCssClass()" @onkeydown="KeyPressed" tabindex="0" id="@WrapperElementId" @ref="WrapperElementReference">
+            <div class="ka-modal-backdrop" @onclick="BackdropClicked"></div>
+            <div class="ka-modal">
+                @if(HeaderFragment is not null || !string.IsNullOrEmpty(Title))
+                {
+                    <div class="ka-modal-header">
+                        @if(HeaderFragment is not null)
+                        {
+                            <div class="ka-modal-header-content">
+                                @HeaderFragment
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="ka-modal-header-title">
+                                <span>@Title</span>
+                            </div>
+                        }
+                        @if(ShowCloseButton)
+                        {
+                            <div class="ka-modal-header-button">
+                                <Komponenty.Basic.KAButton StartIcon="@Komponenty.Icons.Preset.Outline.X" OnClick="CloseAsync" Variant="Basic.ButtonVariant.TextOnly" />
+                            </div>
+                        }
+                    </div>
+                }
+                <div class="ka-modal-content">
+                    @ChildContent
+                </div>
+                @if (FooterFragment is not null || FooterActions is not null)
+                {
+                    <div class="ka-modal-footer">
+                        @if(FooterFragment is not null)
+                        {
+                            @FooterFragment
+                        }
+                        else
+                        {
+                            <div class="ka-modal-footer-actions">
+                                @FooterActions
+                            </div>
+                        }
+                    </div>
+                }
             </div>
         </div>
     </Microsoft.AspNetCore.Components.Sections.SectionContent>
+
+    <Komponenty.Utilities.KAFocusTrap ElementId=@WrapperElementId />
 }

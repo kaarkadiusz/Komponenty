@@ -10,16 +10,13 @@ namespace Komponenty.Modal
         internal const string SecitonOutletName = "ka-modal-section-outlet";
 
         [Inject]
-        private IServiceProvider ServiceProvider { get; set; } = null!;
-
-        private KAModalService? ModalService { get; set; }
+        private KAModalService ModalService { get; set; } = null!;
 
         private IReadOnlyList<KAModalReference> Modals => ModalService?.Modals ?? [];
 
         protected override Task OnInitializedAsync()
         {
-            ModalService = ServiceProvider.GetModalService();
-            ModalService?.ModalsChanged += StateHasChanged;
+            ModalService.ModalsChanged += StateHasChanged;
             return base.OnInitializedAsync();
         }
 

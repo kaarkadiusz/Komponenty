@@ -1,25 +1,65 @@
-.ka-modal {
+.ka-modal-wrapper {
+    --kaModal-spacing: var(--ka-space-lg);
+    --kaModal-width: 500px;
     --kaModalContent-animationName: unset;
     --kaModalBackdrop-animationName: unset;
+    --kaModalVisibility: visible;
 }
 
-    .ka-modal.ka-transition-Enter {
+    .ka-modal-wrapper.ka-modal-transition-Enter {
         --kaModalContent-animationName: kaAnim-entrance;
         --kaModalBackdrop-animationName: kaAnim-fadein;
     }
 
-    .ka-modal.ka-transition-Exit {
+    .ka-modal-wrapper.ka-modal-transition-Exit {
         --kaModalContent-animationName: kaAnim-exit;
         --kaModalBackdrop-animationName: kaAnim-fadeout;
     }
 
-.ka-modal {
+    .ka-modal-wrapper.ka-modal-maxwidth-Unset {
+        --kaModal-width: unset;
+    }
+
+    .ka-modal-wrapper.ka-modal-maxwidth-Small {
+        --kaModal-width: 300px;
+    }
+
+    .ka-modal-wrapper.ka-modal-maxwidth-Medium {
+        --kaModal-width: 550px;
+    }
+
+    .ka-modal-wrapper.ka-modal-maxwidth-Large {
+        --kaModal-width: 800px;
+    }
+
+    .ka-modal-wrapper.ka-modal-hidden {
+        --kaModalVisibility: hidden;
+    }
+
+.ka-modal-wrapper {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
     z-index: var(--ka-zIndex-modal);
+    visibility: var(--kaModalVisibility);
+}
+
+.ka-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    background-color: var(--ka-base-2);
+    animation-name: var(--kaModalContent-animationName);
+    animation-duration: var(--ka-transitionDuration-fast);
+    animation-fill-mode: forwards;
+    box-shadow: var(--ka-boxShadow-md);
+    display: flex;
+    flex-direction: column;
+    width: min(100%, var(--kaModal-width));
+    max-height: 100%;
 }
 
 .ka-modal-backdrop {
@@ -34,14 +74,38 @@
     animation-fill-mode: forwards;
 }
 
+.ka-modal-header {
+    border-bottom: var(--ka-borderWidth-thin) solid var(--ka-base-6);
+    display: flex;
+}
+
+.ka-modal-header-content {
+    flex-grow: 1;
+}
+
+.ka-modal-header-title {
+    flex-grow: 1;
+    font-size: var(--ka-fontSize-xl);
+    font-weight: var(--ka-fontWeight-bold);
+    line-height: var(--ka-lineHeight-md);
+    padding: var(--kaModal-spacing);
+}
+
+.ka-modal-header-button {
+    align-self: start;
+}
+
 .ka-modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    translate: -50% -50%;
-    background-color: var(--ka-base-9);
-    animation-name: var(--kaModalContent-animationName);
-    animation-duration: var(--ka-transitionDuration-fast);
-    animation-fill-mode: forwards;
-    box-shadow: var(--ka-boxShadow-md);
+    padding: var(--kaModal-spacing);
+}
+
+.ka-modal-footer {
+    border-top: var(--ka-borderWidth-thin) solid var(--ka-base-6);
+}
+
+.ka-modal-footer-actions {
+    display: flex;
+    justify-content: end;
+    gap: var(--ka-space-sm);
+    padding: var(--kaModal-spacing);
 }

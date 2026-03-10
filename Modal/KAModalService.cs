@@ -51,6 +51,7 @@ namespace Komponenty.Modal
             }
 
             await Task.WhenAll(_modals[modalReferenceIdx..].Select(modalReference => modalReference.ModalRef?.CloseInternal() ?? Task.CompletedTask));
+            await (_modals.LastOrDefault(modal => modal.ModalRef?.IsOpen ?? false)?.ModalRef?.FocusInternal() ?? Task.CompletedTask);
         }
         private async Task RemoveModalTree(KAModalReference modalReference)
         {

@@ -35,3 +35,67 @@ export function getTextAreaLineCount(textAreaId, textAreaFakeId) {
 
     return Math.max(1, Math.round(ghostHeight / lineHeight));
 }
+
+export function addFocusTrap(elementId) {
+    const element = document.getElementById(elementId);
+    if (!element) {
+        return;
+    }
+
+    const focusableChildren = element.querySelectorAll(focusableSelectors.join(","));
+    if (focusableChildren.length === 0) {
+        return;
+    }
+
+    let first = focusableChildren[0];
+    let last = focusableChildren[focusableChildren.length - 1];
+
+    const focusTrapHandler = function (e) {
+        if (e.key !== "Tab") {
+            return;
+        }
+
+        if (e.shiftKey) {
+            if (document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            }
+        } else {
+            if (document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        }
+    };
+
+    element.addEventListener("keydown", focusTrapHandler);
+
+    onElementRemovedFromDOM(element, () => {
+        element.removeEventListener("keydown", focusTrapHandler);
+        addFocusTrap(elementId);
+    });
+}
+
+const focusableSelectors = [
+    "a[href]",
+    "button:not([disabled])",
+    "textarea:not([disabled])",
+    "input:not([disabled])",
+    "select:not([disabled])",
+    '[tabindex]:not([tabindex="-1"])'
+];
+
+function onElementRemovedFromDOM(element, action) {
+    if (!element) {
+        return;
+    }
+
+    let observer = new MutationObserver(() => {
+        if (!document.body.contains(element)) {
+            action?.();
+            observer.disconnect();
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+}

@@ -82,7 +82,7 @@ namespace Komponenty.Inputs
         private new object? AdornmentIcon { get; }
         private new object? AdornmentPosition { get; }
         private new object? AdornmentText { get; }
-        private new object? Type { get; }
+        private new object? Variant { get; }
         private new object? ReadOnly { get; }
     }
 }

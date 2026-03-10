@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Komponenty.Modal
@@ -9,33 +11,48 @@ namespace Komponenty.Modal
         internal Func<KAModalReference>? GetReferenceFunc { get; set; }
 
         [Parameter]
-        public EventCallback<bool> IsOpenChanged { get; set; }
-        [Parameter]
         public RenderFragment? ChildContent { get; set; }
+        [Parameter]
+        public string? Title { get; set; }
+        [Parameter]
+        public RenderFragment? HeaderFragment { get; set; }
+        [Parameter]
+        public RenderFragment? FooterFragment { get; set; }
+        [Parameter]
+        public RenderFragment? FooterActions { get; set; }
+        [Parameter]
+        public KAModalWidth Width { get; set; } = KAModalWidth.Medium;
+        [Parameter]
+        public bool ShowCloseButton { get; set; } = true;
+        [Parameter]
+        public bool CloseOnBackdropClick { get; set; } = true;
+        [Parameter]
+        public bool CloseOnEscapeKey { get; set; } = true;
+        [Parameter]
+        public bool KeepMounted { get; set; }
 
         [Inject]
-        private IServiceProvider ServiceProvider { get; set; } = null!;
+        private KAModalService ModalService { get; set; } = null!;
 
-        private KAModalService? ModalService { get; set; }
+        private string WrapperElementId => $"{nameof(KAModal)}-{nameof(WrapperElementId)}-{GetHashCode()}";
+        private ElementReference? WrapperElementReference { get; set; }
 
         public bool IsOpen { get; private set; }
 
         private Transition _currentTransition = Transition.None;
         private KAModalReference? ModalReference { get; set; }
-        private bool IsServiceModal { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            ModalService = ServiceProvider.GetModalService();
             await InitializeModalReference();
             await base.OnInitializedAsync();
         }
+
         private async Task InitializeModalReference()
         {
             if (GetReferenceFunc is not null)
             {
                 ModalReference = GetReferenceFunc();
-                IsServiceModal = true;
                 await OpenAsync();
             }
             else if (ModalService is not null)
@@ -47,10 +64,15 @@ namespace Komponenty.Modal
 
         protected override void AppendToCssClass(StringBuilder stringBuilder)
         {
-            stringBuilder.AppendLine("ka-modal");
+            stringBuilder.AppendLine("ka-modal-wrapper");
             if (_currentTransition is not Transition.None)
             {
-                stringBuilder.AppendLine($"ka-transition-{_currentTransition}");
+                stringBuilder.AppendLine($"ka-modal-transition-{_currentTransition}");
+            }
+            stringBuilder.AppendLine($"ka-modal-maxwidth-{Width}");
+            if(!IsOpen && KeepMounted)
+            {
+                stringBuilder.AppendLine($"ka-modal-hidden");
             }
             base.AppendToCssClass(stringBuilder);
         }
@@ -60,10 +82,11 @@ namespace Komponenty.Modal
             IsOpen = true;
             StateHasChanged();
             await PlayTransition(Transition.Enter);
+            await (WrapperElementReference?.FocusAsync() ?? ValueTask.CompletedTask);
         }
         public async Task CloseAsync()
         {
-            if (ModalService is not null && ModalReference is not null)
+            if (ModalReference is not null)
             {
                 await ModalService.CloseAsync(ModalReference);
             }
@@ -73,6 +96,25 @@ namespace Komponenty.Modal
             await PlayTransition(Transition.Exit);
             IsOpen = false;
             StateHasChanged();
+        }
+        internal async Task FocusInternal()
+        {
+            await (WrapperElementReference?.FocusAsync() ?? ValueTask.CompletedTask);
+        }
+
+        private async Task BackdropClicked()
+        {
+            if(CloseOnBackdropClick)
+            {
+                await CloseAsync();
+            }
+        }
+        private async Task KeyPressed(KeyboardEventArgs args)
+        {
+            if(args.Key == "Escape" && CloseOnEscapeKey)
+            {
+                await CloseAsync();
+            }
         }
 
         private CancellationTokenSource PlayTransitionCTS { get; set; } = new();
@@ -97,7 +139,7 @@ namespace Komponenty.Modal
 
         public async ValueTask DisposeAsync()
         {
-            if(ModalService is not null && ModalReference is not null)
+            if(ModalReference is not null)
             {
                 await ModalService.DestroyKAModalReference(ModalReference);
             }
@@ -110,4 +152,13 @@ namespace Komponenty.Modal
             Exit,
         }
     }
+
+    public enum KAModalWidth
+    {
+        Unset,
+        Small,
+        Medium,
+        Large,
+    }
+
 }

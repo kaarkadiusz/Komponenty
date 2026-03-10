@@ -14,16 +14,21 @@ namespace Komponenty
         private readonly Lazy<Task<IJSObjectReference>> moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
                 "import", "./_content/kaarkadiusz.Komponenty/KAJavascriptService.js").AsTask());
 
-        public async Task ScrollToElement(string elementId)
+        public async Task ScrollToElement(string elementId, CancellationToken cancellationToken)
         {
             var module = await moduleTask.Value;
-            await module.InvokeVoidAsync("scrollToElement", elementId);
+            await module.InvokeVoidAsync("scrollToElement", cancellationToken, elementId);
         }
 
-        internal async Task<int> GetTextAreaLineCount(string textAreaId, string textAreaFakeId)
+        internal async Task<int> GetTextAreaLineCount(string textAreaId, string textAreaFakeId, CancellationToken cancellationToken)
         {
             var module = await moduleTask.Value;
             return await module.InvokeAsync<int>("getTextAreaLineCount", textAreaId, textAreaFakeId);
+        }
+        internal async Task AddFocusTrap(string elementId, CancellationToken cancellationToken)
+        {
+            var module = await moduleTask.Value;
+            await module.InvokeVoidAsync("addFocusTrap", cancellationToken, elementId);
         }
 
         public async ValueTask DisposeAsync()

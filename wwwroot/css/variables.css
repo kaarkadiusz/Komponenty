@@ -467,6 +467,8 @@
     --ka-zIndex-tooltip: 1050;
 }
 
+/* Animations */
+
 @keyframes kaAnim-entrance {
     0% {
         opacity: 0.1;
@@ -508,4 +510,10 @@
     100% {
         opacity: 0;
     }
+}
+
+/* Custom styles */
+
+:is(html, body):has(.ka-modal-wrapper:not(.ka-modal-hidden)) {
+    overflow: var(--ka-hasModal-pageOverflow, clip);
 }

@@ -16,19 +16,19 @@
         --kaModalBackdrop-animationName: kaAnim-fadeout;
     }
 
-    .ka-modal-wrapper.ka-modal-maxwidth-Unset {
+    .ka-modal-wrapper.ka-modal-width-Unset {
         --kaModal-width: unset;
     }
 
-    .ka-modal-wrapper.ka-modal-maxwidth-Small {
+    .ka-modal-wrapper.ka-modal-width-Small {
         --kaModal-width: 300px;
     }
 
-    .ka-modal-wrapper.ka-modal-maxwidth-Medium {
+    .ka-modal-wrapper.ka-modal-width-Medium {
         --kaModal-width: 550px;
     }
 
-    .ka-modal-wrapper.ka-modal-maxwidth-Large {
+    .ka-modal-wrapper.ka-modal-width-Large {
         --kaModal-width: 800px;
     }
 

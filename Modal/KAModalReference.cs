@@ -6,11 +6,12 @@ namespace Komponenty.Modal
 {
     public class KAModalReference
     {
-        internal KAModalReference(string sectionName, Type? componentType = null, IDictionary<string, object>? componentParameters = null)
+        internal KAModalReference(string sectionName, Type? componentType = null, IDictionary<string, object>? componentParameters = null, KAModalOptions? modalOptions = null)
         {
             SectionName = sectionName;
             ComponentType = componentType;
             ComponentParameters = componentParameters;
+            ModalOptions = modalOptions;
         }
 
         public string SectionName { get; }
@@ -18,6 +19,7 @@ namespace Komponenty.Modal
 
         public Type? ComponentType { get; }
         public IDictionary<string, object>? ComponentParameters { get; }
+        public KAModalOptions? ModalOptions { get; }
 
         public bool IsDynamicComponent => ComponentType is not null;
     }

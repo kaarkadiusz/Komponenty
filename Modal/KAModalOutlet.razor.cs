@@ -20,6 +20,7 @@ namespace Komponenty.Modal
             return base.OnInitializedAsync();
         }
 
-        
+        private KAModalOptions GetModalOptions(KAModalReference modalReference) => modalReference.ModalOptions ?? _defaultOptions;
+        private static readonly KAModalOptions _defaultOptions = new();
     }
 }

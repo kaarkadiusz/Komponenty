@@ -9,13 +9,29 @@ namespace Komponenty.Modal
         internal IReadOnlyList<KAModalReference> Modals => _modals;
         private List<KAModalReference> _modals = [];
 
+        public async Task<KAModalReference?> OpenAsync(Type componentType, IDictionary<string, object>? componentParameters = null, KAModalOptions? modalOptions = null)
+        {
+            return await CreateKAModalReference(componentType, componentParameters, modalOptions);
+        }
+        public async Task<KAModalReference?> OpenAsync(Type componentType, KAModalOptions? modalOptions = null)
+        {
+            return await OpenAsync(componentType, null, modalOptions);
+        }
         public async Task<KAModalReference?> OpenAsync(Type componentType, IDictionary<string, object>? componentParameters = null)
         {
-            return await CreateKAModalReference(componentType, componentParameters);
+            return await OpenAsync(componentType, componentParameters, null);
+        }
+        public async Task<KAModalReference?> OpenAsync<T>(IDictionary<string, object>? componentParameters = null, KAModalOptions? modalOptions = null) where T : ComponentBase
+        {
+            return await OpenAsync(typeof(T), componentParameters, modalOptions);
+        }
+        public async Task<KAModalReference?> OpenAsync<T>(KAModalOptions? modalOptions = null) where T : ComponentBase
+        {
+            return await OpenAsync(typeof(T), null, modalOptions);
         }
         public async Task<KAModalReference?> OpenAsync<T>(IDictionary<string, object>? componentParameters = null) where T : ComponentBase
         {
-            return await OpenAsync(typeof(T), componentParameters);
+            return await OpenAsync(typeof(T), componentParameters, null);
         }
         public async Task CloseAsync(KAModalReference modalReference)
         {
@@ -35,9 +51,9 @@ namespace Komponenty.Modal
             await RemoveModalTree(modalReference);
         }
 
-        private async Task<KAModalReference> CreateKAModalReference(Type? componentType = null, IDictionary<string, object>? componentParameters = null)
+        private async Task<KAModalReference> CreateKAModalReference(Type? componentType = null, IDictionary<string, object>? componentParameters = null, KAModalOptions? modalOptions = null)
         {
-            KAModalReference modalReference = new(GetNewSectionName(), componentType, componentParameters);
+            KAModalReference modalReference = new(GetNewSectionName(), componentType, componentParameters, modalOptions);
             _modals.Add(modalReference);
             ModalsChanged?.Invoke();
             return modalReference;

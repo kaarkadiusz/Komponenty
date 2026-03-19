@@ -6,11 +6,19 @@
 
     @if (modalReference.IsDynamicComponent)
     {
+        KAModalOptions options = GetModalOptions(modalReference);
+
         <CascadingValue TValue="Func<KAModalReference>" Value="() => modalReference">
-            <KAModal>
+            <KAModal Title="@options.Title"
+                     HeaderFragment="@options.HeaderFragment"
+                     FooterFragment="@options.FooterFragment"
+                     Actions="@options.Actions"
+                     Width="@options.Width"
+                     ShowCloseButton="@options.ShowCloseButton"
+                     CloseOnBackdropClick="@options.CloseOnBackdropClick"
+                     CloseOnEscapeKey="@options.CloseOnEscapeKey">
                 <DynamicComponent Type="@modalReference.ComponentType" Parameters="@modalReference.ComponentParameters" />
             </KAModal>
         </CascadingValue>
     }
 }
-

@@ -1,8 +1,8 @@
 ﻿@inherits KAComponentBase
 
-@if(ModalReference is not null && (IsOpen || KeepMounted))
+@if(_modalReference is not null && (IsOpen || KeepMounted))
 {
-    <Microsoft.AspNetCore.Components.Sections.SectionContent SectionName="@ModalReference.SectionName">
+    <Microsoft.AspNetCore.Components.Sections.SectionContent SectionName="@_modalReference.SectionName">
         <div class="@GetCssClass()" @onkeydown="KeyPressed" tabindex="0" id="@WrapperElementId" @ref="WrapperElementReference">
             <div class="ka-modal-backdrop" @onclick="BackdropClicked"></div>
             <div class="ka-modal">
@@ -32,7 +32,7 @@
                 <div class="ka-modal-content">
                     @ChildContent
                 </div>
-                @if (FooterFragment is not null || FooterActions is not null)
+                @if (FooterFragment is not null || Actions is not null)
                 {
                     <div class="ka-modal-footer">
                         @if(FooterFragment is not null)
@@ -42,7 +42,7 @@
                         else
                         {
                             <div class="ka-modal-footer-actions">
-                                @FooterActions
+                                @Actions
                             </div>
                         }
                     </div>

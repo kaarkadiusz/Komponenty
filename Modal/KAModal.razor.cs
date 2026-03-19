@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Komponenty.Modal
 {
-    public partial class KAModal : KAComponentBase, IAsyncDisposable
+    public partial class KAModal : KAComponentBase, IKAModalOptions, IAsyncDisposable
     {
         [CascadingParameter]
         internal Func<KAModalReference>? GetReferenceFunc { get; set; }
@@ -19,7 +19,7 @@ namespace Komponenty.Modal
         [Parameter]
         public RenderFragment? FooterFragment { get; set; }
         [Parameter]
-        public RenderFragment? FooterActions { get; set; }
+        public RenderFragment? Actions { get; set; }
         [Parameter]
         public KAModalWidth Width { get; set; } = KAModalWidth.Medium;
         [Parameter]
@@ -34,13 +34,13 @@ namespace Komponenty.Modal
         [Inject]
         private KAModalService ModalService { get; set; } = null!;
 
-        private string WrapperElementId => $"{nameof(KAModal)}-{nameof(WrapperElementId)}-{GetHashCode()}";
-        private ElementReference? WrapperElementReference { get; set; }
-
         public bool IsOpen { get; private set; }
 
         private Transition _currentTransition = Transition.None;
-        private KAModalReference? ModalReference { get; set; }
+        private KAModalReference? _modalReference;
+
+        private string WrapperElementId => $"{nameof(KAModal)}-{nameof(WrapperElementId)}-{GetHashCode()}";
+        private ElementReference? WrapperElementReference { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -52,14 +52,14 @@ namespace Komponenty.Modal
         {
             if (GetReferenceFunc is not null)
             {
-                ModalReference = GetReferenceFunc();
+                _modalReference = GetReferenceFunc();
                 await OpenAsync();
             }
             else if (ModalService is not null)
             {
-                ModalReference = await ModalService.CreateKAModalReference();
+                _modalReference = await ModalService.CreateKAModalReference();
             }
-            ModalReference?.ModalRef = this;
+            _modalReference?.ModalRef = this;
         }
 
         protected override void AppendToCssClass(StringBuilder stringBuilder)
@@ -69,7 +69,7 @@ namespace Komponenty.Modal
             {
                 stringBuilder.AppendLine($"ka-modal-transition-{_currentTransition}");
             }
-            stringBuilder.AppendLine($"ka-modal-maxwidth-{Width}");
+            stringBuilder.AppendLine($"ka-modal-width-{Width}");
             if(!IsOpen && KeepMounted)
             {
                 stringBuilder.AppendLine($"ka-modal-hidden");
@@ -86,9 +86,9 @@ namespace Komponenty.Modal
         }
         public async Task CloseAsync()
         {
-            if (ModalReference is not null)
+            if (_modalReference is not null)
             {
-                await ModalService.CloseAsync(ModalReference);
+                await ModalService.CloseAsync(_modalReference);
             }
         }
         internal async Task CloseInternal()
@@ -139,9 +139,9 @@ namespace Komponenty.Modal
 
         public async ValueTask DisposeAsync()
         {
-            if(ModalReference is not null)
+            if(_modalReference is not null)
             {
-                await ModalService.DestroyKAModalReference(ModalReference);
+                await ModalService.DestroyKAModalReference(_modalReference);
             }
         }
 
